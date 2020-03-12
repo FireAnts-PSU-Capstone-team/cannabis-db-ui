@@ -27,3 +27,15 @@ h1 {
 .dataTable {
   padding: 0 1rem;
 }
+
+.addNewEntriesContent {
+  margin: 1rem 7rem;
+}
+
+.dropzone {
+  border: 2px dashed black;
+  border-radius: 5px;
+  text-align: center;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
