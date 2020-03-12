@@ -1,9 +1,8 @@
 import React from 'react';
+import DataTable from './DataTable';
 
 export default function SeeTheData() {
   return (
-    <div>
-      <h1>See the data</h1>
-    </div>
+    <DataTable />
   );
 }
