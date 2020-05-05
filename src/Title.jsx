@@ -5,12 +5,11 @@ export default function Title() {
   return (
     <div>
       <div className="title">
-        Cannabis.
-    </div>
+        Kanabi
+      </div>
       <div className="subtitle">
-        by PSU capstone team
+        by PSU FireAnts capstone team
+      </div>
     </div>
-    </div>
-
   );
 }
