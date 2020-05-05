@@ -3,6 +3,6 @@ import DataTable from './DataTable';
 
 export default function SeeTheData() {
   return (
-    <DataTable />
+    <DataTable title="Intake" />
   );
 }

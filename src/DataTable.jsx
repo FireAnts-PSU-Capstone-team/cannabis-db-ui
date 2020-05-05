@@ -71,25 +71,27 @@ function DataTableHead(props) {
 }
 
 const DataTableToolbar = props => {
-  const { numSelected } = props;
+  const { numSelected, title } = props;
 
   return (
     <Toolbar
+
     >
+      <Typography variant="h6">{title}</Typography>
       {numSelected > 0 ? (
         <>
-          <Typography color="inherit" variant="subtitle1">
-            {numSelected} selected
-        </Typography>
           <Tooltip title="Delete">
             <IconButton aria-label="delete">
               <DeleteIcon />
             </IconButton>
           </Tooltip>
+          <Typography variant="subtitle1">
+            {numSelected} selected
+          </Typography>
         </>
       ) : (
-          <Tooltip title="Filter list">
-            <IconButton aria-label="filter list">
+          <Tooltip title="Filter">
+            <IconButton aria-label="filter">
               <FilterListIcon />
             </IconButton>
           </Tooltip>
@@ -98,7 +100,7 @@ const DataTableToolbar = props => {
   );
 };
 
-export default function DataTable() {
+export default function DataTable(props) {
   const [order, setOrder] = useState('asc');
   const [orderBy, setOrderBy] = useState('calories');
   const [selected, setSelected] = useState([]);
@@ -108,6 +110,8 @@ export default function DataTable() {
 
   const [rows, setRows] = useState([]);
   const [headers, setHeaders] = useState([]);
+
+  const { title } = props;
 
   useEffect(() => {
     getIntakeTable().then(res => {
@@ -134,11 +138,11 @@ export default function DataTable() {
 
   const handleSelectAllClick = event => {
     if (event.target.checked) {
-      const newSelecteds = rows.map(n => n.name);
+      const newSelecteds = rows.map(row => row[0]);
       setSelected(newSelecteds);
-      return;
+    } else {
+      setSelected([]);
     }
-    setSelected([]);
   };
 
   const handleRowClick = (_, name) => {
@@ -188,7 +192,7 @@ export default function DataTable() {
   } else {
     return (
       <Container maxWidth="lg">
-        <DataTableToolbar numSelected={selected.length} />
+        <DataTableToolbar title={title} numSelected={selected.length} />
         <TableContainer>
           <Table
             aria-labelledby="tableTitle"
