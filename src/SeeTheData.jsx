@@ -1,8 +1,8 @@
 import React from 'react';
-import DataTable from './DataTable';
+import IntakeTable from './IntakeTable';
 
 export default function SeeTheData() {
   return (
-    <DataTable title="Intake" />
+    <IntakeTable />
   );
 }

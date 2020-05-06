@@ -32,7 +32,7 @@ function stableSort(array, comparator) {
   return stabilizedThis.map(el => el[0]);
 }
 
-function DataTableHead(props) {
+function IntakeTableHead(props) {
   const { onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort, headCells } = props;
   const createSortHandler = property => event => {
     onRequestSort(event, property);
@@ -70,14 +70,12 @@ function DataTableHead(props) {
   );
 }
 
-const DataTableToolbar = props => {
-  const { numSelected, title } = props;
+const IntakeTableToolbar = props => {
+  const { numSelected } = props;
 
   return (
-    <Toolbar
-
-    >
-      <Typography variant="h6">{title}</Typography>
+    <Toolbar>
+      <Typography variant="h6">Intake</Typography>
       {numSelected > 0 ? (
         <>
           <Tooltip title="Delete">
@@ -100,7 +98,7 @@ const DataTableToolbar = props => {
   );
 };
 
-export default function DataTable(props) {
+export default function IntakeTable(props) {
   const [order, setOrder] = useState('asc');
   const [orderBy, setOrderBy] = useState('calories');
   const [selected, setSelected] = useState([]);
@@ -110,8 +108,6 @@ export default function DataTable(props) {
 
   const [rows, setRows] = useState([]);
   const [headers, setHeaders] = useState([]);
-
-  const { title } = props;
 
   useEffect(() => {
     getIntakeTable().then(res => {
@@ -185,21 +181,21 @@ export default function DataTable(props) {
   if (rows.length === 0) {
     return (
       <Container maxWidth="lg">
-        <DataTableToolbar numSelected={selected.length} />
+        <IntakeTableToolbar numSelected={selected.length} />
         <Typography variant="body1" align="center">No data found</Typography>
       </Container>
     );
   } else {
     return (
       <Container maxWidth="lg">
-        <DataTableToolbar title={title} numSelected={selected.length} />
+        <IntakeTableToolbar numSelected={selected.length} />
         <TableContainer>
           <Table
             aria-labelledby="tableTitle"
             size={dense ? 'small' : 'medium'}
             aria-label="Data table"
           >
-            <DataTableHead
+            <IntakeTableHead
               numSelected={selected.length}
               order={order}
               orderBy={orderBy}
