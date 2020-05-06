@@ -65,6 +65,7 @@ export async function filterIntakeTable(query) {
 export async function addRow(row) {
   return {
     returnCode: 200,
+    rowAdded: row,
   }
 }
 
