@@ -1,13 +1,37 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Dropzone from 'react-dropzone';
-import Button from '@material-ui/core/Button';
+import { Button, List, ListItem, ListItemText } from '@material-ui/core';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import './style.css';
+import { addFile } from './MockApi';
 
 export default function AddViaSpreadSheetForm() {
+  const [files, setFiles] = useState([]);
+
+  const onSubmit = _ => {
+    let addPromises = [];
+
+    if (files.length > 0) {
+      files.forEach(file => {
+        addPromises.push(addFile(file).then(res => console.log(res, file)));
+      });
+
+      Promise.all(addPromises).then(() => {
+        console.log('all files submitted');
+        setFiles([]);
+      });
+    } else {
+      console.log('no files to submit');
+    }
+  }
+
+  const onFilesDrop = acceptedFiles => {
+    setFiles(files.concat(acceptedFiles))
+  };
+
   return (
     <div>
-      <Dropzone onDrop={acceptedFiles => console.log(acceptedFiles)}>
+      <Dropzone onDrop={onFilesDrop}>
         {({ getRootProps, getInputProps }) => (
           <div className="dropzone" {...getRootProps()}>
             <input {...getInputProps()} />
@@ -20,9 +44,16 @@ export default function AddViaSpreadSheetForm() {
           </div>
         )}
       </Dropzone>
-      <Button variant="contained" color="primary">
-        Submit
-      </Button>
+      {(files.length > 0) ?
+        <List>
+          {files.map((file, index) =>
+            <ListItem key={`file-${index}`}>
+              <ListItemText>{file.name}</ListItemText>
+            </ListItem>
+          )}
+        </List>
+        : null}
+      <Button variant="contained" color="primary" onClick={onSubmit}>Submit</Button>
     </div>
   );
 }
