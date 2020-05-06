@@ -6,14 +6,44 @@ import FilterListIcon from '@material-ui/icons/FilterList';
 import './style.css';
 import { getIntakeTable } from './MockApi';
 
+const headers = [
+  { id: 'row', numeric: true, label: 'row' },
+  { id: 'Submission date', numeric: false, label: 'Submission date' },
+  { id: 'Entity', numeric: false, label: 'Entity' },
+  { id: 'DBA', numeric: false, label: 'DBA' },
+  { id: 'Facility Address', numeric: false, label: 'Facility Address' },
+  { id: 'Facility Suite #', numeric: true, label: 'Facility Suite #' },
+  { id: 'Facility Zip', numeric: true, label: 'Facility Zip' },
+  { id: 'Mailing Address', numeric: false, label: 'Mailing Address' },
+  { id: 'MRL', numeric: false, label: 'MRL' },
+  { id: 'Neighborhood Association', numeric: false, label: 'Neighborhood Association' },
+  { id: 'Compliance Region', numeric: false, label: 'Compliance Region' },
+  { id: 'Primary Contact First Name', numeric: false, label: 'Primary Contact First Name' },
+  { id: 'Primary Contact Last Name', numeric: false, label: 'Primary Contact Last Name' },
+  { id: 'Email', numeric: false, label: 'Email' },
+  { id: 'Phone', numeric: false, label: 'Phone' },
+  { id: 'Endorse Type', numeric: false, label: 'Endorse Type' },
+  { id: 'License Type', numeric: false, label: 'License Type' },
+  { id: 'Repeat location?', numeric: false, label: 'Repeat location?' },
+  { id: 'App complete?', numeric: false, label: 'App complete?' },
+  { id: 'Fee Schedule', numeric: false, label: 'Fee Schedule' },
+  { id: 'Receipt No.', numeric: false, label: 'Receipt No.' },
+  { id: 'Cash Amount', numeric: false, label: 'Cash Amount' },
+  { id: 'Check Amount', numeric: false, label: 'Check Amount' },
+  { id: 'Card Amount', numeric: false, label: 'Card Amount' },
+  { id: 'Check No. / Approval Code', numeric: true, label: 'Check No. / Approval Code' },
+  { id: 'MRL#', numeric: false, label: 'MRL#' },
+  { id: 'Notes', numeric: false, label: 'Notes' },
+];
+
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
     return -1;
-  }
-  if (b[orderBy] > a[orderBy]) {
+  } else if (b[orderBy] > a[orderBy]) {
     return 1;
+  } else {
+    return 0;
   }
-  return 0;
 }
 
 function getComparator(order, orderBy) {
@@ -33,7 +63,8 @@ function stableSort(array, comparator) {
 }
 
 function IntakeTableHead(props) {
-  const { onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort, headCells } = props;
+  const { onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } = props;
+
   const createSortHandler = property => event => {
     onRequestSort(event, property);
   };
@@ -49,7 +80,7 @@ function IntakeTableHead(props) {
             inputProps={{ 'aria-label': 'select all desserts' }}
           />
         </TableCell>
-        {headCells.map(headCell => (
+        {headers.map(headCell => (
           <TableCell
             key={headCell.id}
             align={headCell.numeric ? 'right' : 'left'}
@@ -67,6 +98,59 @@ function IntakeTableHead(props) {
         ))}
       </TableRow>
     </TableHead>
+  );
+}
+
+const IntakeTableRow = props => {
+  const { onRowClick, isRowSelected, index, row } = props;
+
+  const labelId = `intake-table-checkbox-${index}`;
+  const makeCellKey = property => `intake-table-cell-${index}-${property}`;
+
+  return (
+    <TableRow
+      hover
+      onClick={onRowClick}
+      role="checkbox"
+      aria-checked={isRowSelected}
+      tabIndex={-1}
+      key={row["row"]}
+      selected={isRowSelected}
+    >
+      <TableCell padding="checkbox">
+        <Checkbox
+          checked={isRowSelected}
+          inputProps={{ 'aria-labelledby': labelId }}
+        />
+      </TableCell>
+      <TableCell key={makeCellKey('row')} align="right">{row['row']}</TableCell>
+      <TableCell key={makeCellKey('Submission date')} align="left">{row['Submission date']}</TableCell>
+      <TableCell key={makeCellKey('Entity')} align="left">{row['Entity']}</TableCell>
+      <TableCell key={makeCellKey('DBA')} align="left">{row['DBA']}</TableCell>
+      <TableCell key={makeCellKey('Facility Address')} align="left">{row['Facility Address']}</TableCell>
+      <TableCell key={makeCellKey('Facility Suite #')} align="right">{row['Facility Suite #']}</TableCell>
+      <TableCell key={makeCellKey('Facility Zip')} align="right">{row['Facility Zip']}</TableCell>
+      <TableCell key={makeCellKey('Mailing Address')} align="left">{row['Mailing Address']}</TableCell>
+      <TableCell key={makeCellKey('MRL')} align="left">{row['MRL']}</TableCell>
+      <TableCell key={makeCellKey('Neighborhood Association')} align="left">{row['Neighborhood Association']}</TableCell>
+      <TableCell key={makeCellKey('Compliance Region')} align="left">{row['Compliance Region']}</TableCell>
+      <TableCell key={makeCellKey('Primary Contact First Name')} align="left">{row['Primary Contact First Name']}</TableCell>
+      <TableCell key={makeCellKey('Primary Contact Last Name')} align="left">{row['Primary Contact Last Name']}</TableCell>
+      <TableCell key={makeCellKey('Email')} align="left">{row['Email']}</TableCell>
+      <TableCell key={makeCellKey('Phone')} align="left">{row['Phone']}</TableCell>
+      <TableCell key={makeCellKey('Endorse Type')} align="left">{row['Endorse Type']}</TableCell>
+      <TableCell key={makeCellKey('License Type')} align="left">{row['License Type']}</TableCell>
+      <TableCell key={makeCellKey('Repeat location?')} align="left">{row['Repeat location?']}</TableCell>
+      <TableCell key={makeCellKey('App complete?')} align="left">{row['App complete?']}</TableCell>
+      <TableCell key={makeCellKey('Fee Schedule')} align="left">{row['Fee Schedule']}</TableCell>
+      <TableCell key={makeCellKey('Receipt No.')} align="left">{row['Receipt No.']}</TableCell>
+      <TableCell key={makeCellKey('Cash Amount')} align="left">{row['Cash Amount']}</TableCell>
+      <TableCell key={makeCellKey('Check Amount')} align="left">{row['Check Amount']}</TableCell>
+      <TableCell key={makeCellKey('Card Amount')} align="left">{row['Card Amount']}</TableCell>
+      <TableCell key={makeCellKey('Check No. / Approval Code')} align="right">{row['Check No. / Approval Code']}</TableCell>
+      <TableCell key={makeCellKey('MRL#')} align="left">{row['MRL#']}</TableCell>
+      <TableCell key={makeCellKey('Notes')} align="left">{row['Notes']}</TableCell>
+    </TableRow>
   );
 }
 
@@ -98,30 +182,19 @@ const IntakeTableToolbar = props => {
   );
 };
 
-export default function IntakeTable(props) {
+export default function IntakeTable() {
   const [order, setOrder] = useState('asc');
-  const [orderBy, setOrderBy] = useState('calories');
+  const [orderBy, setOrderBy] = useState('row');
   const [selected, setSelected] = useState([]);
   const [page, setPage] = useState(0);
   const [dense, setDense] = useState(false);
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
   const [rows, setRows] = useState([]);
-  const [headers, setHeaders] = useState([]);
 
   useEffect(() => {
     getIntakeTable().then(res => {
-      let headers, rows = [];
-
-      if (res.data.length !== 0) {
-        headers = Object.keys(res.data[0]).map(key => {
-          return { id: key, label: key, numeric: !isNaN(res.data[0][key]) };
-        });
-
-        rows = res.data.map(elem => Object.values(elem));
-      }
-
-      setHeaders(headers);
+      let rows = res.data;
       setRows(rows);
     });
   }, []);
@@ -134,7 +207,7 @@ export default function IntakeTable(props) {
 
   const handleSelectAllClick = event => {
     if (event.target.checked) {
-      const newSelecteds = rows.map(row => row[0]);
+      const newSelecteds = rows.map(row => row["row"]);
       setSelected(newSelecteds);
     } else {
       setSelected([]);
@@ -202,41 +275,19 @@ export default function IntakeTable(props) {
               onSelectAllClick={handleSelectAllClick}
               onRequestSort={handleRequestSort}
               rowCount={rows.length}
-              headCells={headers}
             />
             <TableBody>
               {stableSort(rows, getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((row, index) => {
-                  const isItemSelected = isSelected(row[0]);
-                  const labelId = `data-table-checkbox-${index}`;
-
-                  return (
-                    <TableRow
-                      hover
-                      onClick={event => handleRowClick(event, row[0])}
-                      role="checkbox"
-                      aria-checked={isItemSelected}
-                      tabIndex={-1}
-                      key={row[0]}
-                      selected={isItemSelected}
-                    >
-                      <TableCell padding="checkbox">
-                        <Checkbox
-                          checked={isItemSelected}
-                          inputProps={{ 'aria-labelledby': labelId }}
-                        />
-                      </TableCell>
-                      {row.map((data, index) =>
-                        <TableCell
-                          key={`data-table-cell-${row[0]}-${index}`}
-                          align={isNaN(data) ? 'left' : 'right'}
-                        >
-                          {data}
-                        </TableCell>)}
-                    </TableRow>
-                  );
-                })}
+                .map((row, index) =>
+                  <IntakeTableRow
+                    key={index}
+                    onRowClick={event => handleRowClick(event, row["row"])}
+                    isRowSelected={isSelected(row["row"])}
+                    index={index}
+                    row={row}
+                  />
+                )}
               {emptyRows > 0 && (
                 <TableRow style={{ height: (dense ? 33 : 53) * emptyRows }}>
                   <TableCell colSpan={6} />

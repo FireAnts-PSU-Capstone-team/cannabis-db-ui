@@ -34,6 +34,12 @@ export async function getIntakeTable() {
   for (let i = 0; i < 30; i++) {
     table.push({...row}); // {...row} because if we just push row it'll pass the row by reference
     table[i]["row"] = i + 1;
+
+    for (let key in table[i]) {
+      if (key !== "row" && key !== "Submission date") {
+        table[i][key] = table[i][key].toString() + i.toString();
+      }
+    }
   }
 
   return {
