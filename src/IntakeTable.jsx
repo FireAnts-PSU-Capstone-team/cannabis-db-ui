@@ -4,7 +4,7 @@ import Container from '@material-ui/core/Container';
 import DeleteIcon from '@material-ui/icons/Delete';
 import FilterListIcon from '@material-ui/icons/FilterList';
 import './style.css';
-import { getIntakeTable } from './MockApi';
+import { getIntakeTable, deleteRow } from './MockApi';
 
 const headers = [
   { id: 'row', numeric: true, label: 'row' },
@@ -155,7 +155,7 @@ const IntakeTableRow = props => {
 }
 
 const IntakeTableToolbar = props => {
-  const { numSelected } = props;
+  const { numSelected, onDeleteRows } = props;
 
   return (
     <Toolbar>
@@ -163,7 +163,7 @@ const IntakeTableToolbar = props => {
       {numSelected > 0 ? (
         <>
           <Tooltip title="Delete">
-            <IconButton aria-label="delete">
+            <IconButton aria-label="delete" onClick={onDeleteRows}>
               <DeleteIcon />
             </IconButton>
           </Tooltip>
@@ -192,12 +192,15 @@ export default function IntakeTable() {
 
   const [rows, setRows] = useState([]);
 
-  useEffect(() => {
+  const refreshTable = () => {
     getIntakeTable().then(res => {
       let rows = res.data;
       setRows(rows);
     });
-  }, []);
+    console.log('table refreshed');
+  }
+
+  useEffect(refreshTable, []);
 
   const handleRequestSort = (_, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -251,6 +254,24 @@ export default function IntakeTable() {
 
   const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
+  const onDeleteRows = () => {
+    if (selected.length > 0) {
+      let deletePromises = [];
+
+      selected.forEach(rowNumber => {
+        deletePromises.push(deleteRow(rowNumber).then(res => console.log(res, rowNumber)));
+      });
+
+      Promise.all(deletePromises).then(() => {
+        console.log(`yeeted rows: ${selected}`);
+        setSelected([]);
+        refreshTable();
+      });
+    } else {
+      console.log('no rows to yeet');
+    }
+  };
+
   if (rows.length === 0) {
     return (
       <Container maxWidth="lg">
@@ -261,7 +282,7 @@ export default function IntakeTable() {
   } else {
     return (
       <Container maxWidth="lg">
-        <IntakeTableToolbar numSelected={selected.length} />
+        <IntakeTableToolbar numSelected={selected.length} onDeleteRows={onDeleteRows} />
         <TableContainer>
           <Table
             aria-labelledby="tableTitle"

@@ -75,6 +75,12 @@ export async function addFile(file) {
   }
 }
 
+export async function deleteRow(row) {
+  return {
+    returnCode: 200,
+  }
+}
+
 export async function editRow(row) {
   return {
     returnCode: 200,

@@ -9,9 +9,9 @@ export default function AddViaSpreadSheetForm() {
   const [files, setFiles] = useState([]);
 
   const onSubmit = _ => {
-    let addPromises = [];
-
     if (files.length > 0) {
+      let addPromises = [];
+
       files.forEach(file => {
         addPromises.push(addFile(file).then(res => console.log(res, file)));
       });
