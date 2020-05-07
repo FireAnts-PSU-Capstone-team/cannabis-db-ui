@@ -51,7 +51,7 @@ export async function getIntakeTable() {
 export async function filterIntakeTable(query) {
   let table = [];
 
-  for (let i = 0; i < 5; i++) {
+  for (let i = 0; i < 4; i++) {
     table.push({...row}); // {...row} because if we just push row it'll pass the row by reference
     table[i]["row"] = i + 1;
   }

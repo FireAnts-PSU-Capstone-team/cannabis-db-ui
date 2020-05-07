@@ -2,9 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, TableSortLabel, Checkbox, FormControlLabel, Switch, Toolbar, Typography, Tooltip, IconButton } from '@material-ui/core';
 import Container from '@material-ui/core/Container';
 import DeleteIcon from '@material-ui/icons/Delete';
-import FilterListIcon from '@material-ui/icons/FilterList';
+import RefreshIcon from '@material-ui/icons/Refresh';
 import './style.css';
-import { getIntakeTable, deleteRow } from './MockApi';
+import { getIntakeTable, deleteRow, filterIntakeTable } from './MockApi';
+import IntakeTableFilters from './IntakeTableFilters';
 
 const headers = [
   { id: 'row', numeric: true, label: 'row' },
@@ -155,7 +156,7 @@ const IntakeTableRow = props => {
 }
 
 const IntakeTableToolbar = props => {
-  const { numSelected, onDeleteRows } = props;
+  const { numSelected, onDeleteRows, onRefreshTable } = props;
 
   return (
     <Toolbar>
@@ -171,13 +172,9 @@ const IntakeTableToolbar = props => {
             {numSelected} selected
           </Typography>
         </>
-      ) : (
-          <Tooltip title="Filter">
-            <IconButton aria-label="filter">
-              <FilterListIcon />
-            </IconButton>
-          </Tooltip>
-        )}
+      ) : <IconButton aria-label="refresh-table" onClick={onRefreshTable}>
+          <RefreshIcon />
+        </IconButton>}
     </Toolbar>
   );
 };
@@ -272,6 +269,10 @@ export default function IntakeTable() {
     }
   };
 
+  const onFilterSubmit = query => {
+    filterIntakeTable(query).then(res => setRows(res.data));
+  }
+
   if (rows.length === 0) {
     return (
       <Container maxWidth="lg">
@@ -282,7 +283,11 @@ export default function IntakeTable() {
   } else {
     return (
       <Container maxWidth="lg">
-        <IntakeTableToolbar numSelected={selected.length} onDeleteRows={onDeleteRows} />
+        <IntakeTableToolbar
+          numSelected={selected.length}
+          onDeleteRows={onDeleteRows}
+          onRefreshTable={refreshTable} />
+        <IntakeTableFilters onSubmit={onFilterSubmit} />
         <TableContainer>
           <Table
             aria-labelledby="tableTitle"

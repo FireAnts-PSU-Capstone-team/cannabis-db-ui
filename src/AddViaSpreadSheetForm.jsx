@@ -45,7 +45,7 @@ export default function AddViaSpreadSheetForm() {
         )}
       </Dropzone>
       {(files.length > 0) ?
-        <List>
+        <List dense>
           {files.map((file, index) =>
             <ListItem key={`file-${index}`}>
               <ListItemText>{file.name}</ListItemText>
