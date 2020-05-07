@@ -2,7 +2,7 @@ import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import Container from '@material-ui/core/Container';
 import './style.css';
-import AddAnEntryForm from './AddAnEntryForm';
+import IntakeRowForm from './IntakeRowForm';
 import AddViaSpreadSheetForm from './AddViaSpreadSheetForm';
 
 export default function AddNewEntries() {
@@ -18,7 +18,7 @@ export default function AddNewEntries() {
         <Grid item xs={12} sm={12} md={8}>
           <Container maxWidth="md">
             <h1>Add an entry</h1>
-            <AddAnEntryForm />
+            <IntakeRowForm/>
           </Container>
         </Grid>
       </Grid>
