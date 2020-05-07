@@ -184,8 +184,8 @@ export default function IntakeTable() {
   const [orderBy, setOrderBy] = useState('row');
   const [selected, setSelected] = useState([]);
   const [page, setPage] = useState(0);
-  const [dense, setDense] = useState(false);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [dense, setDense] = useState(true);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
 
   const [rows, setRows] = useState([]);
 
@@ -270,7 +270,10 @@ export default function IntakeTable() {
   };
 
   const onFilterSubmit = query => {
-    filterIntakeTable(query).then(res => setRows(res.data));
+    filterIntakeTable(query).then(res => {
+      console.log('filtered', res);
+      setRows(res.data);
+    });
   }
 
   if (rows.length === 0) {
@@ -323,7 +326,7 @@ export default function IntakeTable() {
           </Table>
         </TableContainer>
         <TablePagination
-          rowsPerPageOptions={[5, 10, 25]}
+          rowsPerPageOptions={[5, 10, 25, 50, 100]}
           component="div"
           count={rows.length}
           rowsPerPage={rowsPerPage}
