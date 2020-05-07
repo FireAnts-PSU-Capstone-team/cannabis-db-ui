@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { TextField, Button } from '@material-ui/core';
 import './style.css';
-import { addRow } from './MockApi';
 
 export const makeField = (field, handleChange) =>
   <TextField
@@ -24,7 +23,9 @@ export const formatDate = date => {
   }
 }
 
-export default function IntakeRowForm() {
+export default function IntakeRowForm(props) {
+  const { onSubmit } = props;
+
   const [rowValue, setRowValue] = useState('');
   const [submissionDateValue, setSubmissionDateValue] = useState('');
   const [entityValue, setEntityValue] = useState('');
@@ -53,8 +54,8 @@ export default function IntakeRowForm() {
   const [mrlNoValue, setMrlNoValue] = useState('');
   const [notesValue, setNotesValue] = useState('');
 
-  const onSubmit = _ => {
-    const rowToSubmit = {
+  const makeRowToSubmit = () => {
+    return {
       "row": rowValue,
       "Submission date": submissionDateValue,
       "Entity": entityValue,
@@ -83,10 +84,14 @@ export default function IntakeRowForm() {
       "MRL#": mrlNoValue,
       "Notes": notesValue
     };
+  };
+
+  const onSubmitClick = _ => {
+    const rowToSubmit = makeRowToSubmit();
 
     const isFormCompleted = Object.values(rowToSubmit).every(val => val.length > 0)
     if (isFormCompleted) {
-      addRow(rowToSubmit).then(res => console.log(res));
+      onSubmit(rowToSubmit);
     } else {
       console.log("some fields are missing. form was not submitted");
     }
@@ -129,7 +134,7 @@ export default function IntakeRowForm() {
       {makeField('Check No. / Approval Code', event => setCheckNoValue(event.target.value))}
       {makeField('MRL#', event => setMrlNoValue(event.target.value))}
       {makeField('Notes', event => setNotesValue(event.target.value))}
-      <Button variant="contained" color="primary" onClick={onSubmit}>Submit</Button>
+      <Button variant="contained" color="primary" onClick={onSubmitClick}>Submit</Button>
     </form>
   );
 }
