@@ -1,6 +1,6 @@
 export const row = {
     "row": 222,
-    "Submission date": "01/01/19",
+    "Submission date": "01/01/2019",
     "Entity": "The Greenhouse Gases",
     "DBA": "Boss Nass's",
     "Facility Address": "197 N Electric Ave",
@@ -84,5 +84,6 @@ export async function deleteRow(row) {
 export async function editRow(row) {
   return {
     returnCode: 200,
+    rowEdited: row,
   }
 }

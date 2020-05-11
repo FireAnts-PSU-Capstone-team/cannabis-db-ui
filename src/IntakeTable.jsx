@@ -2,10 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, TableSortLabel, Checkbox, FormControlLabel, Switch, Toolbar, Typography, Tooltip, IconButton } from '@material-ui/core';
 import Container from '@material-ui/core/Container';
 import DeleteIcon from '@material-ui/icons/Delete';
+import EditIcon from '@material-ui/icons/Edit';
 import RefreshIcon from '@material-ui/icons/Refresh';
 import './style.css';
-import { getIntakeTable, deleteRow, filterIntakeTable } from './MockApi';
+import { getIntakeTable, deleteRow, filterIntakeTable, editRow } from './MockApi';
 import IntakeTableFilters from './IntakeTableFilters';
+import IntakeRowForm from './IntakeRowForm';
 
 const headers = [
   { id: 'row', numeric: true, label: 'row' },
@@ -156,25 +158,23 @@ const IntakeTableRow = props => {
 }
 
 const IntakeTableToolbar = props => {
-  const { numSelected, onDeleteRows, onRefreshTable } = props;
+  const { numSelected, onDeleteRows, onRefreshTable, onEditRow } = props;
 
   return (
     <Toolbar>
       <Typography variant="h6">Intake</Typography>
-      {numSelected > 0 ? (
-        <>
-          <Tooltip title="Delete">
-            <IconButton aria-label="delete" onClick={onDeleteRows}>
-              <DeleteIcon />
-            </IconButton>
-          </Tooltip>
-          <Typography variant="subtitle1">
-            {numSelected} selected
-          </Typography>
-        </>
-      ) : <IconButton aria-label="refresh-table" onClick={onRefreshTable}>
-          <RefreshIcon />
-        </IconButton>}
+      <Tooltip title="Refresh">
+        <IconButton aria-label="refresh-table" onClick={onRefreshTable}><RefreshIcon /></IconButton>
+      </Tooltip>
+      {numSelected === 1 ?
+        <Tooltip title="Edit">
+          <IconButton aria-label="edit-row" onClick={onEditRow}><EditIcon /></IconButton>
+        </Tooltip> : null}
+      {numSelected > 0 ?
+        <Tooltip title="Delete">
+          <IconButton aria-label="delete-rows" onClick={onDeleteRows}><DeleteIcon /></IconButton>
+        </Tooltip> : null}
+      <Typography variant="subtitle1">{numSelected} selected</Typography>
     </Toolbar>
   );
 };
@@ -186,13 +186,17 @@ export default function IntakeTable() {
   const [page, setPage] = useState(0);
   const [dense, setDense] = useState(true);
   const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [editDialogOpen, setEditDialogOpen] = useState(false);
 
   const [rows, setRows] = useState([]);
+
+  const getRow = rowNumber => rows.find(row => row['row'] === rowNumber);
 
   const refreshTable = () => {
     getIntakeTable().then(res => {
       let rows = res.data;
       setRows(rows);
+      setSelected([]);
     });
     console.log('table refreshed');
   }
@@ -269,6 +273,14 @@ export default function IntakeTable() {
     }
   };
 
+  const onEditRow = newRow => {
+    if (selected.length === 1) {
+      editRow(newRow).then(res => console.log(res));
+    } else {
+      console.log('somehow you selected 0 or more than 1 row to edit');
+    }
+  }
+
   const onFilterSubmit = query => {
     filterIntakeTable(query).then(res => {
       console.log('filtered', res);
@@ -289,6 +301,7 @@ export default function IntakeTable() {
         <IntakeTableToolbar
           numSelected={selected.length}
           onDeleteRows={onDeleteRows}
+          onEditRow={() => setEditDialogOpen(true)}
           onRefreshTable={refreshTable} />
         <IntakeTableFilters onSubmit={onFilterSubmit} />
         <TableContainer>
@@ -338,6 +351,13 @@ export default function IntakeTable() {
           control={<Switch checked={dense} onChange={handleChangeDense} />}
           label="Dense padding"
         />
+        <IntakeRowForm
+          isDialog={true}
+          row={getRow(selected[0])}
+          dialogOpen={editDialogOpen}
+          onDialogClose={() => setEditDialogOpen(false)}
+          onSubmit={onEditRow}
+        ></IntakeRowForm>
       </Container>
     );
   }
