@@ -87,3 +87,15 @@ export async function editRow(row) {
     rowEdited: row,
   }
 }
+
+export async function login(credentials) {
+  return {
+    returnCode: 200,
+  }
+}
+
+export async function logout(credentials) {
+  return {
+    returnCode: 200,
+  }
+}
