@@ -97,6 +97,7 @@ export default function IntakeRowForm(props) {
   const [mrlNoValue, setMrlNoValue] = useState(theRow['MRL#']);
   const [notesValue, setNotesValue] = useState(theRow['Notes']);
 
+  // Update states every time the dialog opens
   useEffect(() => {
     setRowValue(theRow['row']);
     setSubmissionDateValue(theRow['Submission date']);
@@ -125,7 +126,7 @@ export default function IntakeRowForm(props) {
     setCheckNoValue(theRow['Check No. / Approval Code']);
     setMrlNoValue(theRow['MRL#']);
     setNotesValue(theRow['Notes']);
-  }, [isDialog, dialogOpen, row, theRow]);
+  }, [isDialog, dialogOpen, theRow]);
 
   const makeRowToSubmit = () => {
     return {

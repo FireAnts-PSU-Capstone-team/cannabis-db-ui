@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, TableSortLabel, Checkbox, FormControlLabel, Switch, Toolbar, Typography, Tooltip, IconButton } from '@material-ui/core';
+import { Table, TableBody, TableCell, TableContainer, TablePagination, TableRow, FormControlLabel, Switch, Typography } from '@material-ui/core';
 import Container from '@material-ui/core/Container';
-import DeleteIcon from '@material-ui/icons/Delete';
-import EditIcon from '@material-ui/icons/Edit';
-import RefreshIcon from '@material-ui/icons/Refresh';
 import './style.css';
 import { getIntakeTable, deleteRow, filterIntakeTable, editRow } from './MockApi';
 import IntakeTableFilters from './IntakeTableFilters';
 import IntakeRowForm from './IntakeRowForm';
+import IntakeTableHead from './IntakeTableHead';
+import IntakeTableRow from './IntakeTableRow';
+import IntakeTableToolbar from './IntakeTableToolbar';
 
 const headers = [
   { id: 'row', numeric: true, label: 'row' },
@@ -64,120 +64,6 @@ function stableSort(array, comparator) {
   });
   return stabilizedThis.map(el => el[0]);
 }
-
-function IntakeTableHead(props) {
-  const { onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } = props;
-
-  const createSortHandler = property => event => {
-    onRequestSort(event, property);
-  };
-
-  return (
-    <TableHead>
-      <TableRow>
-        <TableCell padding="checkbox">
-          <Checkbox
-            indeterminate={numSelected > 0 && numSelected < rowCount}
-            checked={rowCount > 0 && numSelected === rowCount}
-            onChange={onSelectAllClick}
-            inputProps={{ 'aria-label': 'select all desserts' }}
-          />
-        </TableCell>
-        {headers.map(headCell => (
-          <TableCell
-            key={headCell.id}
-            align={headCell.numeric ? 'right' : 'left'}
-            padding={headCell.disablePadding ? 'none' : 'default'}
-            sortDirection={orderBy === headCell.id ? order : false}
-          >
-            <TableSortLabel
-              active={orderBy === headCell.id}
-              direction={orderBy === headCell.id ? order : 'asc'}
-              onClick={createSortHandler(headCell.id)}
-            >
-              {headCell.label}
-            </TableSortLabel>
-          </TableCell>
-        ))}
-      </TableRow>
-    </TableHead>
-  );
-}
-
-const IntakeTableRow = props => {
-  const { onRowClick, isRowSelected, index, row } = props;
-
-  const labelId = `intake-table-checkbox-${index}`;
-  const makeCellKey = property => `intake-table-cell-${index}-${property}`;
-
-  return (
-    <TableRow
-      hover
-      onClick={onRowClick}
-      role="checkbox"
-      aria-checked={isRowSelected}
-      tabIndex={-1}
-      key={row["row"]}
-      selected={isRowSelected}
-    >
-      <TableCell padding="checkbox">
-        <Checkbox
-          checked={isRowSelected}
-          inputProps={{ 'aria-labelledby': labelId }}
-        />
-      </TableCell>
-      <TableCell key={makeCellKey('row')} align="right">{row['row']}</TableCell>
-      <TableCell key={makeCellKey('Submission date')} align="left">{row['Submission date']}</TableCell>
-      <TableCell key={makeCellKey('Entity')} align="left">{row['Entity']}</TableCell>
-      <TableCell key={makeCellKey('DBA')} align="left">{row['DBA']}</TableCell>
-      <TableCell key={makeCellKey('Facility Address')} align="left">{row['Facility Address']}</TableCell>
-      <TableCell key={makeCellKey('Facility Suite #')} align="right">{row['Facility Suite #']}</TableCell>
-      <TableCell key={makeCellKey('Facility Zip')} align="right">{row['Facility Zip']}</TableCell>
-      <TableCell key={makeCellKey('Mailing Address')} align="left">{row['Mailing Address']}</TableCell>
-      <TableCell key={makeCellKey('MRL')} align="left">{row['MRL']}</TableCell>
-      <TableCell key={makeCellKey('Neighborhood Association')} align="left">{row['Neighborhood Association']}</TableCell>
-      <TableCell key={makeCellKey('Compliance Region')} align="left">{row['Compliance Region']}</TableCell>
-      <TableCell key={makeCellKey('Primary Contact First Name')} align="left">{row['Primary Contact First Name']}</TableCell>
-      <TableCell key={makeCellKey('Primary Contact Last Name')} align="left">{row['Primary Contact Last Name']}</TableCell>
-      <TableCell key={makeCellKey('Email')} align="left">{row['Email']}</TableCell>
-      <TableCell key={makeCellKey('Phone')} align="left">{row['Phone']}</TableCell>
-      <TableCell key={makeCellKey('Endorse Type')} align="left">{row['Endorse Type']}</TableCell>
-      <TableCell key={makeCellKey('License Type')} align="left">{row['License Type']}</TableCell>
-      <TableCell key={makeCellKey('Repeat location?')} align="left">{row['Repeat location?']}</TableCell>
-      <TableCell key={makeCellKey('App complete?')} align="left">{row['App complete?']}</TableCell>
-      <TableCell key={makeCellKey('Fee Schedule')} align="left">{row['Fee Schedule']}</TableCell>
-      <TableCell key={makeCellKey('Receipt No.')} align="left">{row['Receipt No.']}</TableCell>
-      <TableCell key={makeCellKey('Cash Amount')} align="left">{row['Cash Amount']}</TableCell>
-      <TableCell key={makeCellKey('Check Amount')} align="left">{row['Check Amount']}</TableCell>
-      <TableCell key={makeCellKey('Card Amount')} align="left">{row['Card Amount']}</TableCell>
-      <TableCell key={makeCellKey('Check No. / Approval Code')} align="right">{row['Check No. / Approval Code']}</TableCell>
-      <TableCell key={makeCellKey('MRL#')} align="left">{row['MRL#']}</TableCell>
-      <TableCell key={makeCellKey('Notes')} align="left">{row['Notes']}</TableCell>
-    </TableRow>
-  );
-}
-
-const IntakeTableToolbar = props => {
-  const { numSelected, onDeleteRows, onRefreshTable, onEditRow } = props;
-
-  return (
-    <Toolbar>
-      <Typography variant="h6">Intake</Typography>
-      <Tooltip title="Refresh">
-        <IconButton aria-label="refresh-table" onClick={onRefreshTable}><RefreshIcon /></IconButton>
-      </Tooltip>
-      {numSelected === 1 ?
-        <Tooltip title="Edit">
-          <IconButton aria-label="edit-row" onClick={onEditRow}><EditIcon /></IconButton>
-        </Tooltip> : null}
-      {numSelected > 0 ?
-        <Tooltip title="Delete">
-          <IconButton aria-label="delete-rows" onClick={onDeleteRows}><DeleteIcon /></IconButton>
-        </Tooltip> : null}
-      <Typography variant="subtitle1">{numSelected} selected</Typography>
-    </Toolbar>
-  );
-};
 
 export default function IntakeTable() {
   const [order, setOrder] = useState('asc');
@@ -311,6 +197,7 @@ export default function IntakeTable() {
             aria-label="Data table"
           >
             <IntakeTableHead
+              headers={headers}
               numSelected={selected.length}
               order={order}
               orderBy={orderBy}
