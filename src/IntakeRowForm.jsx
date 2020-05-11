@@ -2,16 +2,15 @@ import React, { useState, useEffect } from 'react';
 import { TextField, Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@material-ui/core';
 import './style.css';
 
-export const makeField = (field, value = '', handleChange) => {
-  return (<TextField
+export const makeField = (field, value = '', handleChange) =>
+  <TextField
     style={{ marginBottom: '1rem' }}
     fullWidth
     label={field}
     variant="outlined"
     onChange={handleChange}
     defaultValue={value}
-  />);
-}
+  />;
 
 // Convert from yyyy-MM-dd to Date
 export const formatDate = date => {
@@ -162,10 +161,7 @@ export default function IntakeRowForm(props) {
 
   const onSubmitClick = _ => {
     const rowToSubmit = makeRowToSubmit();
-    const isFormCompleted = Object.values(rowToSubmit).every(val => val.toString().length > 0)
-
-    console.log('theRow', theRow);
-    console.log('rowToSubmit', rowToSubmit);
+    const isFormCompleted = Object.values(rowToSubmit).every(val => val.toString().length > 0);
 
     if (isFormCompleted) {
       onSubmit(rowToSubmit);
@@ -178,49 +174,45 @@ export default function IntakeRowForm(props) {
     }
   };
 
-  const formFields = () => {
-    return (
-      <>
-        {makeField('row', theRow['row'], event => setRowValue(event.target.value))}
-        <TextField
-          style={{ marginBottom: '1rem' }}
-          fullWidth
-          label="Submission date"
-          variant="outlined"
-          type="date"
-          InputLabelProps={{ shrink: true }}
-          onChange={event => setSubmissionDateValue(formatDate(event.target.value))}
-          defaultValue={reverseFormatDate(theRow['Submission date'])}
-        />
-        {makeField('Entity', theRow['Entity'], event => setEntityValue(event.target.value))}
-        {makeField('DBA', theRow['DBA'], event => setDbaValue(event.target.value))}
-        {makeField('Facility Address', theRow['Facility Address'], event => setFacilityAddressValue(event.target.value))}
-        {makeField('Facility Suite #', theRow['Facility Suite #'], event => setFacilitySuiteNoValue(event.target.value))}
-        {makeField('Facility Zip', theRow['Facility Zip'], event => setFacilityZipValue(event.target.value))}
-        {makeField('Mailing Address', theRow['Mailing Address'], event => setMailingAddressValue(event.target.value))}
-        {makeField('MRL', theRow['MRL'], event => setMrlValue(event.target.value))}
-        {makeField('Neighborhood Association', theRow['Neighborhood Association'], event => setneighborhoodAssocValue(event.target.value))}
-        {makeField('Compliance Region', theRow['Compliance Region'], event => setComplianceRegionValue(event.target.value))}
-        {makeField('Primary Contact First Name', theRow['Primary Contact First Name'], event => setFirstNameValue(event.target.value))}
-        {makeField('Primary Contact Last Name', theRow['Primary Contact Last Name'], event => setLastNameValue(event.target.value))}
-        {makeField('Email', theRow['Email'], event => setEmailValue(event.target.value))}
-        {makeField('Phone', theRow['Phone'], event => setPhoneValue(event.target.value))}
-        {makeField('Endorse Type', theRow['Endorse Type'], event => setEndorseTypeValue(event.target.value))}
-        {makeField('License Type', theRow['License Type'], event => setLicenseTypeValue(event.target.value))}
-        {makeField('Repeat location?', theRow['Repeat location?'], event => setRepeatLocationValue(event.target.value))}
-        {makeField('App complete?', theRow['App complete?'], event => setAppCompleteValue(event.target.value))}
-        {makeField('Fee Schedule', theRow['Fee Schedule'], event => setFeeScheduleValue(event.target.value))}
-        {makeField('Receipt No.', theRow['Receipt No.'], event => setReceiptNoValue(event.target.value))}
-        {makeField('Cash Amount', theRow['Cash Amount'], event => setCashAmountValue(event.target.value))}
-        {makeField('Check Amount', theRow['Check Amount'], event => setCheckAmountValue(event.target.value))}
-        {makeField('Card Amount', theRow['Card Amount'], event => setCardAmountValue(event.target.value))}
-        {makeField('Check No. / Approval Code', theRow['Check No. / Approval Code'], event => setCheckNoValue(event.target.value))}
-        {makeField('MRL#', theRow['MRL#'], event => setMrlNoValue(event.target.value))}
-        {makeField('Notes', theRow['Notes'], event => setNotesValue(event.target.value))}
-      </>
-    );
-  };
-
+  const formFields = () =>
+    <>
+      {makeField('row', theRow['row'], e => setRowValue(e.target.value))}
+      <TextField
+        style={{ marginBottom: '1rem' }}
+        fullWidth
+        label="Submission date"
+        variant="outlined"
+        type="date"
+        InputLabelProps={{ shrink: true }}
+        onChange={e => setSubmissionDateValue(formatDate(e.target.value))}
+        defaultValue={reverseFormatDate(theRow['Submission date'])}
+      />
+      {makeField('Entity', theRow['Entity'], e => setEntityValue(e.target.value))}
+      {makeField('DBA', theRow['DBA'], e => setDbaValue(e.target.value))}
+      {makeField('Facility Address', theRow['Facility Address'], e => setFacilityAddressValue(e.target.value))}
+      {makeField('Facility Suite #', theRow['Facility Suite #'], e => setFacilitySuiteNoValue(e.target.value))}
+      {makeField('Facility Zip', theRow['Facility Zip'], e => setFacilityZipValue(e.target.value))}
+      {makeField('Mailing Address', theRow['Mailing Address'], e => setMailingAddressValue(e.target.value))}
+      {makeField('MRL', theRow['MRL'], e => setMrlValue(e.target.value))}
+      {makeField('Neighborhood Association', theRow['Neighborhood Association'], e => setneighborhoodAssocValue(e.target.value))}
+      {makeField('Compliance Region', theRow['Compliance Region'], e => setComplianceRegionValue(e.target.value))}
+      {makeField('Primary Contact First Name', theRow['Primary Contact First Name'], e => setFirstNameValue(e.target.value))}
+      {makeField('Primary Contact Last Name', theRow['Primary Contact Last Name'], e => setLastNameValue(e.target.value))}
+      {makeField('Email', theRow['Email'], e => setEmailValue(e.target.value))}
+      {makeField('Phone', theRow['Phone'], e => setPhoneValue(e.target.value))}
+      {makeField('Endorse Type', theRow['Endorse Type'], e => setEndorseTypeValue(e.target.value))}
+      {makeField('License Type', theRow['License Type'], e => setLicenseTypeValue(e.target.value))}
+      {makeField('Repeat location?', theRow['Repeat location?'], e => setRepeatLocationValue(e.target.value))}
+      {makeField('App complete?', theRow['App complete?'], e => setAppCompleteValue(e.target.value))}
+      {makeField('Fee Schedule', theRow['Fee Schedule'], e => setFeeScheduleValue(e.target.value))}
+      {makeField('Receipt No.', theRow['Receipt No.'], e => setReceiptNoValue(e.target.value))}
+      {makeField('Cash Amount', theRow['Cash Amount'], e => setCashAmountValue(e.target.value))}
+      {makeField('Check Amount', theRow['Check Amount'], e => setCheckAmountValue(e.target.value))}
+      {makeField('Card Amount', theRow['Card Amount'], e => setCardAmountValue(e.target.value))}
+      {makeField('Check No. / Approval Code', theRow['Check No. / Approval Code'], e => setCheckNoValue(e.target.value))}
+      {makeField('MRL#', theRow['MRL#'], e => setMrlNoValue(e.target.value))}
+      {makeField('Notes', theRow['Notes'], e => setNotesValue(e.target.value))}
+    </>;
 
   if (isDialog === true) {
     return (

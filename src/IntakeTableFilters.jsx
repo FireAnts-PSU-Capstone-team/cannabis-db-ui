@@ -58,7 +58,7 @@ export default function IntakeTableFilters(props) {
               onChange={event => setSubmissionDateToValue(formatDate(event.target.value))}
             />
           </div>
-          {makeWideField('Entity', e => setEntityValue(e.target.value))}
+          {makeWideField('Entity', '', e => setEntityValue(e.target.value))}
         </form>
       </ExpansionPanelDetails>
       <ExpansionPanelActions>
