@@ -3,7 +3,7 @@ import Dropzone from 'react-dropzone';
 import { Button, List, ListItem, ListItemText } from '@material-ui/core';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import './style.css';
-import { addFile } from './MockApi';
+import { addFile } from './ApiCaller';
 
 export default function AddViaSpreadSheetForm() {
   const [files, setFiles] = useState([]);

@@ -7,7 +7,7 @@ import AddNewEntries from './AddNewEntries';
 import SeeTheData from './SeeTheData';
 import VisualizeWithTableau from './VisualizeWithTableau';
 import LoginDialog from './LoginDialog';
-import { login } from './MockApi';
+import { login } from './ApiCaller';
 
 export default function App() {
   const [navValue, setNavValue] = useState(2);

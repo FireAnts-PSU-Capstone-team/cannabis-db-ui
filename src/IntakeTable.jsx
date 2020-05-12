@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Table, TableBody, TableCell, TableContainer, TablePagination, TableRow, FormControlLabel, Switch, Typography } from '@material-ui/core';
 import Container from '@material-ui/core/Container';
 import './style.css';
-import { getIntakeTable, deleteRow, filterIntakeTable, editRow } from './MockApi';
+import { getIntakeTable, deleteRow, filterIntakeTable, editRow } from './ApiCaller';
 import IntakeTableFilters from './IntakeTableFilters';
 import IntakeRowForm from './IntakeRowForm';
 import IntakeTableHead from './IntakeTableHead';
@@ -79,8 +79,7 @@ export default function IntakeTable() {
   const getRow = rowNumber => rows.find(row => row['row'] === rowNumber);
 
   const refreshTable = () => {
-    getIntakeTable().then(res => {
-      let rows = res.data;
+    getIntakeTable().then(rows => {
       setRows(rows);
       setSelected([]);
     });

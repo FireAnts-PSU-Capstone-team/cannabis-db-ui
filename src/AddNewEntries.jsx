@@ -4,7 +4,7 @@ import Container from '@material-ui/core/Container';
 import './style.css';
 import IntakeRowForm from './IntakeRowForm';
 import AddViaSpreadSheetForm from './AddViaSpreadSheetForm';
-import { addRow } from './MockApi';
+import { addRow } from './ApiCaller';
 
 export default function AddNewEntries() {
   const onAddAnEntry = rowToAdd => {
