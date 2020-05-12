@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { TextField, ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, ExpansionPanelActions, Typography, Button } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import FilterListIcon from '@material-ui/icons/FilterList';
-import { makeField as makeWideField, formatDate } from './IntakeRowForm';
+import { makeField as makeWideField } from './IntakeRowForm';
 
 export default function IntakeTableFilters(props) {
   const { onSubmit } = props;
@@ -37,25 +37,31 @@ export default function IntakeTableFilters(props) {
       <ExpansionPanelDetails>
         <form style={{ width: '100%' }}>
           <div>
-            <TextField style={{ marginBottom: '1rem' }} variant="outlined" label="row from" onChange={e => setRowFromValue(e.target.value)} />
-            <TextField style={{ margin: '0 0 1rem 1rem' }} variant="outlined" label="row to" onChange={e => setRowToValue(e.target.value)} />
+            <TextField
+              style={{ marginBottom: '1rem' }}
+              variant="outlined"
+              label="row from"
+              onChange={e => setRowFromValue(e.target.value)}
+            />
+            <TextField
+              style={{ margin: '0 0 1rem 1rem' }}
+              variant="outlined"
+              label="row to"
+              onChange={e => setRowToValue(e.target.value)}
+            />
           </div>
           <div>
             <TextField
               style={{ marginBottom: '1rem' }}
               label="Submission date from"
               variant="outlined"
-              type="date"
-              InputLabelProps={{ shrink: true }}
-              onChange={event => setSubmissionDateFromValue(formatDate(event.target.value))}
+              onChange={e => setSubmissionDateFromValue(e.target.value)}
             />
             <TextField
               style={{ margin: '0 0 1rem 1rem' }}
               label="Submission date to"
               variant="outlined"
-              type="date"
-              InputLabelProps={{ shrink: true }}
-              onChange={event => setSubmissionDateToValue(formatDate(event.target.value))}
+              onChange={e => setSubmissionDateToValue(e.target.value)}
             />
           </div>
           {makeWideField('Entity', '', e => setEntityValue(e.target.value))}

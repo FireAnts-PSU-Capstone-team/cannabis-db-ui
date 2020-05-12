@@ -12,29 +12,6 @@ export const makeField = (field, value = '', handleChange) =>
     defaultValue={value}
   />;
 
-// Convert from yyyy-MM-dd to Date
-export const formatDate = date => {
-  try {
-    return new Date(date);
-  } catch (error) {
-    return 'invalid date format';
-  }
-}
-
-// Convert from a date string to yyyy-MM-dd
-export const reverseFormatDate = date => {
-  const padTwoZeros = num => num.toString().padStart(2, '0');
-  try {
-    const theDate = new Date(date);
-    const year = theDate.getUTCFullYear();
-    const month = padTwoZeros(theDate.getUTCMonth() + 1);
-    const day = padTwoZeros(theDate.getUTCDate());
-    return `${year}-${month}-${day}`;
-  } catch (error) {
-    return 'invalid date format';
-  }
-}
-
 export default function IntakeRowForm(props) {
   const { isDialog, dialogOpen, onDialogClose, row, onSubmit } = props;
 
