@@ -20,9 +20,12 @@ export async function addRow(row) {
 }
 
 export async function addFile(file) {
-  return fetch('https://capstone.sugar.coffee/load?table=intake', {
+  const data = new FormData();
+  data.append('file', file, file.name);
+
+  return fetch('https://capstone.sugar.coffee/load', {
     method: 'post',
-    body: JSON.stringify(file),
+    body: data,
   }).then(res => res.json())
 }
 
