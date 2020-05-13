@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@material-ui/core';
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from '@material-ui/core';
 import { makeField } from './IntakeRowForm';
 
 export default function LoginDialog(props) {
@@ -27,7 +27,14 @@ export default function LoginDialog(props) {
       <DialogTitle>Login</DialogTitle>
       <DialogContent>
         {makeField('User', '', e => setUser(e.target.value))}
-        {makeField('Password', '', e => setPassword(e.target.value))}
+        <TextField
+          style={{ marginBottom: '1rem' }}
+          fullWidth
+          label="Password"
+          type="password"
+          variant="outlined"
+          onChange={e => setPassword(e.target.value)}
+        />
       </DialogContent>
       <DialogActions>
         <Button onClick={onClose} color="secondary">Cancel</Button>
