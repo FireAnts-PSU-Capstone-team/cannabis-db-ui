@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/cannabis-db-ui/precache-manifest.a425be512ab532f7642a334b267c8df7.js"
+  "/cannabis-db-ui/precache-manifest.29ab83b858589fb2a10307fb82d15ab7.js"
 );
 
 self.addEventListener('message', (event) => {
