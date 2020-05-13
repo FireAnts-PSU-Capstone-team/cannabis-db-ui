@@ -1,6 +1,6 @@
 # Kanabi GUI
 
-GUI for the Kanabi capstone project. Created using React JS.
+GUI for the Kanabi capstone project. Created using React JS and Material UI.
 
 ## Deployments
 
@@ -12,17 +12,16 @@ GUI for the Kanabi capstone project. Created using React JS.
 
 ### `npm start`
 
-Runs the app in the development mode.<br />
+Runs the app in the development mode.
+
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+Page will reload automatically when you save your code edits.
 
 ### `npm run build`
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Builds the app for production to the `build` folder.
 
 ### `npm run deploy`
 
-Builds the app for production and deploy to [GitHub pages](https://fireants-psu-capstone-team.github.io/cannabis-db-ui).
+(Must be an admin of this repository) Builds the app for production and deploy to GitHub pages.
