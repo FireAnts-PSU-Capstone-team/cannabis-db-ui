@@ -11,18 +11,19 @@ export async function filterIntakeTable(query) {
 
 export async function addRow(row) {
   return fetch('https://capstone.sugar.coffee/load?table=intake', {
-    method: 'post',
+    method: 'put',
     headers: {
       'Content-type': 'application/json'
     },
-    body: row,
+    body: JSON.stringify(row),
   }).then(res => res.json())
 }
 
 export async function addFile(file) {
-  return {
-    returnCode: 200,
-  }
+  return fetch('https://capstone.sugar.coffee/load?table=intake', {
+    method: 'post',
+    body: JSON.stringify(file),
+  }).then(res => res.json())
 }
 
 export async function deleteRow(row) {
