@@ -7,16 +7,33 @@ import AddNewEntries from './AddNewEntries';
 import SeeTheData from './SeeTheData';
 import VisualizeWithTableau from './VisualizeWithTableau';
 import LoginDialog from './LoginDialog';
-import { login } from './ApiCaller';
+import { login, logout } from './ApiCaller';
 
 export default function App() {
   const [navValue, setNavValue] = useState(2);
   const [loginDialogOpen, setLoginDialogOpen] = useState(false);
+  const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
+  const [isUserAdmin, setIsUserAdmin] = useState(false);
 
   const onLogin = credentials => {
     setLoginDialogOpen(false);
-    login(credentials).then(res => console.log(res, credentials));
+    login(credentials).then(res => {
+      console.log(res, credentials);
+      setIsUserLoggedIn(true);
+      if (res.is_admin === true) {
+        setIsUserAdmin(true);
+      } else {
+        setIsUserAdmin(false);
+      }
+    });
   };
+
+  const onLogout = () => {
+    logout().then(_ => {
+      setIsUserAdmin(false);
+      setIsUserLoggedIn(false);
+    });
+  }
 
   const onNavChange = (_, newValue) => {
     setNavValue(newValue);
@@ -43,7 +60,9 @@ export default function App() {
         <Title />
       </Grid>
       <Grid item xs={12} sm={6}>
-        <Button style={{ margin: '1rem 1rem', float: 'right' }} onClick={() => setLoginDialogOpen(true)}>Login</Button>
+        {isUserLoggedIn ?
+          <Button style={{ margin: '1rem 1rem', float: 'right' }} onClick={onLogout}>Logout</Button> :
+          <Button style={{ margin: '1rem 1rem', float: 'right' }} onClick={() => setLoginDialogOpen(true)}>Login</Button>}
       </Grid>
       <Grid item xs={12}>
         <Nav navValue={navValue} onNavChange={onNavChange} />
