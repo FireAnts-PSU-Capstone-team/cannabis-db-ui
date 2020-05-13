@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { TextField, Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@material-ui/core';
 import './style.css';
 
@@ -75,7 +75,7 @@ export default function IntakeRowForm(props) {
   const [notesValue, setNotesValue] = useState(theRow.notes);
 
   // Update states every time the dialog opens
-  useEffect(() => {
+  const onDialogEnter = () => {
     setRowValue(theRow.row);
     setSubmissionDateValue(theRow.submission_date);
     setEntityValue(theRow.entity);
@@ -103,7 +103,7 @@ export default function IntakeRowForm(props) {
     setCheckNoValue(theRow.check_num_approval_code);
     setMrlNoValue(theRow.mrl_num);
     setNotesValue(theRow.notes);
-  }, [isDialog, dialogOpen, theRow]);
+  };
 
   const makeRowToSubmit = () => {
     return {
@@ -138,14 +138,7 @@ export default function IntakeRowForm(props) {
   };
 
   const onSubmitClick = _ => {
-    const rowToSubmit = makeRowToSubmit();
-    const isFormCompleted = Object.values(rowToSubmit).every(val => val.toString().length > 0);
-
-    if (isFormCompleted) {
-      onSubmit(rowToSubmit);
-    } else {
-      console.log("some fields are missing. form was not submitted");
-    }
+    onSubmit(makeRowToSubmit());
 
     if (isDialog) {
       onDialogClose();
@@ -185,7 +178,12 @@ export default function IntakeRowForm(props) {
 
   if (isDialog === true) {
     return (
-      <Dialog open={dialogOpen} onClose={onDialogClose} aria-labelledby="intake-row-form-dialog">
+      <Dialog
+        open={dialogOpen}
+        onClose={onDialogClose}
+        onEnter={onDialogEnter}
+        aria-labelledby="intake-row-form-dialog"
+      >
         <DialogTitle>Edit row {theRow.row}</DialogTitle>
         <DialogContent>
           {formFields()}
