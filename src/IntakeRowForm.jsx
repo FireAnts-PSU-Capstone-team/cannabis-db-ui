@@ -138,14 +138,7 @@ export default function IntakeRowForm(props) {
   };
 
   const onSubmitClick = _ => {
-    const rowToSubmit = makeRowToSubmit();
-    const isFormCompleted = Object.values(rowToSubmit).every(val => val.toString().length > 0);
-
-    if (isFormCompleted) {
-      onSubmit(rowToSubmit);
-    } else {
-      console.log("some fields are missing. form was not submitted");
-    }
+    onSubmit(makeRowToSubmit());
 
     if (isDialog) {
       onDialogClose();
