@@ -65,7 +65,9 @@ function stableSort(array, comparator) {
   return stabilizedThis.map(el => el[0]);
 }
 
-export default function IntakeTable() {
+export default function IntakeTable(props) {
+  const { isUserAdmin } = props;
+
   const [order, setOrder] = useState('asc');
   const [orderBy, setOrderBy] = useState('row');
   const [selected, setSelected] = useState([]);
@@ -176,14 +178,16 @@ export default function IntakeTable() {
   if (rows.length === 0) {
     return (
       <Container maxWidth="lg">
-        <IntakeTableToolbar numSelected={selected.length} />
-        <Typography variant="body1" align="center">No data found</Typography>
+        <IntakeTableToolbar isUserAdmin={isUserAdmin} numSelected={selected.length} />
+        <IntakeTableFilters onSubmit={onFilterSubmit} />
+        <Typography variant="body1" align="center">No data.</Typography>
       </Container>
     );
   } else {
     return (
       <Container maxWidth="lg">
         <IntakeTableToolbar
+          isUserAdmin={isUserAdmin}
           numSelected={selected.length}
           onDeleteRows={onDeleteRows}
           onEditRow={() => setEditDialogOpen(true)}

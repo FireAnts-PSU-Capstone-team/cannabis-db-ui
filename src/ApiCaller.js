@@ -45,6 +45,8 @@ export async function editRow(row) {
 export async function login(credentials) {
   return {
     returnCode: 200,
+    name: credentials.user,
+    is_admin: true,
   }
 }
 
