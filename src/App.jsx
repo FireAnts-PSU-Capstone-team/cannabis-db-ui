@@ -19,24 +19,28 @@ export default function App() {
 
   const onLogin = credentials => {
     setLoginDialogOpen(false);
-    login(credentials).then(res => {
-      console.log(res, credentials, 'logged in');
-      setIsUserLoggedIn(true);
-      setUsername(res.name)
-      if (res.is_admin === true) {
-        setIsUserAdmin(true);
-      } else {
-        setIsUserAdmin(false);
-      }
-    });
+    login(credentials)
+      .then(res => {
+        console.log(res, credentials, 'logged in');
+        setIsUserLoggedIn(true);
+        setUsername(res.name)
+        if (res.is_admin === true) {
+          setIsUserAdmin(true);
+        } else {
+          setIsUserAdmin(false);
+        }
+      })
+      .catch(err => console.log(err));
   };
 
   const onLogout = () => {
-    logout().then(res => {
-      console.log("login'nt", res);
-      setIsUserAdmin(false);
-      setIsUserLoggedIn(false);
-    });
+    logout()
+      .then(res => {
+        console.log("login'nt", res);
+        setIsUserAdmin(false);
+        setIsUserLoggedIn(false);
+      })
+      .catch(err => console.log(err));
   }
 
   const onNavChange = (_, newValue) => {
