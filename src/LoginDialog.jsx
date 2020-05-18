@@ -5,20 +5,20 @@ import { makeField } from './IntakeRowForm';
 export default function LoginDialog(props) {
   const { open, onClose, onSubmit } = props;
 
-  const [user, setUser] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const onSubmitClick = () => {
 
-    if (user.length > 0 && password.length > 0) {
+    if (email.length > 0 && password.length > 0) {
       const userCredentials = {
-        user: user,
+        email: email,
         password: password,
       };
 
       onSubmit(userCredentials)
     } else {
-      console.log('must enter both user and password');
+      console.log('must enter both email and password');
     }
   };
 
@@ -26,7 +26,7 @@ export default function LoginDialog(props) {
     <Dialog open={open} onClose={onClose} aria-labelledby="login-dialog">
       <DialogTitle>Login</DialogTitle>
       <DialogContent>
-        {makeField('User', '', e => setUser(e.target.value))}
+        {makeField('Email', '', e => setEmail(e.target.value))}
         <TextField
           style={{ marginBottom: '1rem' }}
           fullWidth

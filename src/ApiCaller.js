@@ -44,8 +44,8 @@ export async function editRow(row) {
 
 export async function login(credentials) {
   return {
-    returnCode: 200,
-    name: credentials.user,
+    email: 'admin@gmail.com',
+    name: 'admin',
     is_admin: true,
   }
 }

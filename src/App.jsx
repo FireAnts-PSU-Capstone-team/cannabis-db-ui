@@ -32,8 +32,8 @@ export default function App() {
   };
 
   const onLogout = () => {
-    logout().then(_ => {
-      console.log("login'nt");
+    logout().then(res => {
+      console.log("login'nt", res);
       setIsUserAdmin(false);
       setIsUserLoggedIn(false);
     });
@@ -69,7 +69,7 @@ export default function App() {
             <Button style={{ margin: '1rem 1rem', float: 'right' }} onClick={onLogout}>Logout</Button>
             <Typography variant="body1" style={{ marginTop: '1.35rem' }} align="right">Hi there, {username}</Typography>
           </> :
-          <Button style={{ margin: '1rem 1rem', float: 'right' }}  onClick={() => setLoginDialogOpen(true)}>Login</Button>}
+          <Button style={{ margin: '1rem 1rem', float: 'right' }} onClick={() => setLoginDialogOpen(true)}>Login</Button>}
       </Grid>
       <Grid item xs={12}>
         <Nav navValue={navValue} onNavChange={onNavChange} />
