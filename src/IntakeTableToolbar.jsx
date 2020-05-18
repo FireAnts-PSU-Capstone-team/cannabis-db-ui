@@ -5,7 +5,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import RefreshIcon from '@material-ui/icons/Refresh';
 
 export default function IntakeTableToolbar(props) {
-  const { numSelected, onDeleteRows, onRefreshTable, onEditRow } = props;
+  const { numSelected, onDeleteRows, onRefreshTable, onEditRow, isUserAdmin } = props;
 
   return (
     <Toolbar>
@@ -13,11 +13,11 @@ export default function IntakeTableToolbar(props) {
       <Tooltip title="Refresh">
         <IconButton aria-label="refresh-table" onClick={onRefreshTable}><RefreshIcon /></IconButton>
       </Tooltip>
-      {numSelected === 1 ?
+      {(numSelected === 1 && isUserAdmin === true) ?
         <Tooltip title="Edit">
           <IconButton aria-label="edit-row" onClick={onEditRow}><EditIcon /></IconButton>
         </Tooltip> : null}
-      {numSelected > 0 ?
+      {(numSelected > 0 && isUserAdmin === true) ?
         <Tooltip title="Delete">
           <IconButton aria-label="delete-rows" onClick={onDeleteRows}><DeleteIcon /></IconButton>
         </Tooltip> : null}
