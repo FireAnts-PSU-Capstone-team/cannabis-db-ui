@@ -39,6 +39,8 @@ const headers = [
   { id: 'Notes', numeric: false, label: 'Notes' },
 ];
 
+const columns = headers.map(header => header.label);
+
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
     return -1;
@@ -169,6 +171,7 @@ export default function IntakeTable(props) {
   }
 
   const onFilterSubmit = query => {
+    console.log('filter clicked', query);
     filterIntakeTable(query).then(res => {
       console.log('filtered', res);
       setRows(res.data);
@@ -179,7 +182,7 @@ export default function IntakeTable(props) {
     return (
       <Container maxWidth="lg">
         <IntakeTableToolbar isUserAdmin={isUserAdmin} numSelected={selected.length} />
-        <IntakeTableFilters onSubmit={onFilterSubmit} />
+        <IntakeTableFilters onSubmit={onFilterSubmit} allColumns={columns} />
         <Typography variant="body1" align="center">No data.</Typography>
       </Container>
     );
@@ -192,7 +195,7 @@ export default function IntakeTable(props) {
           onDeleteRows={onDeleteRows}
           onEditRow={() => setEditDialogOpen(true)}
           onRefreshTable={refreshTable} />
-        <IntakeTableFilters onSubmit={onFilterSubmit} />
+        <IntakeTableFilters onSubmit={onFilterSubmit} allColumns={columns} />
         <TableContainer>
           <Table
             aria-labelledby="tableTitle"
