@@ -3,10 +3,7 @@ export async function getIntakeTable() {
 }
 
 export async function filterIntakeTable(query) {
-  return {
-    returnCode: 200,
-    data: [],
-  }
+  return fetch('https://capstone.sugar.coffee/list?table=intake').then(res => res.json());
 }
 
 export async function addRow(row) {

@@ -39,7 +39,7 @@ const headers = [
   { id: 'Notes', numeric: false, label: 'Notes' },
 ];
 
-const columns = headers.map(header => header.label);
+const allColumns = headers.map(header => header.label);
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -77,8 +77,10 @@ export default function IntakeTable(props) {
   const [dense, setDense] = useState(true);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [editDialogOpen, setEditDialogOpen] = useState(false);
-
+  const [shownColumns, setShownColumns] = useState(allColumns);
   const [rows, setRows] = useState([]);
+
+  const shownHeaders = headers.filter(header => shownColumns.includes(header.label));
 
   const getRow = rowNumber => rows.find(row => row['row'] === rowNumber);
 
@@ -171,10 +173,13 @@ export default function IntakeTable(props) {
   }
 
   const onFilterSubmit = query => {
-    console.log('filter clicked', query);
-    filterIntakeTable(query).then(res => {
-      console.log('filtered', res);
-      setRows(res.data);
+    setShownColumns(query.columns);
+
+    const urlQuery = `table=intake&columns=${allColumns.join()}&where=${query.where}`;
+
+    filterIntakeTable(urlQuery).then(rows => {
+      console.log('filtered', rows);
+      setRows(rows);
     });
   }
 
@@ -182,7 +187,7 @@ export default function IntakeTable(props) {
     return (
       <Container maxWidth="lg">
         <IntakeTableToolbar isUserAdmin={isUserAdmin} numSelected={selected.length} />
-        <IntakeTableFilters onSubmit={onFilterSubmit} allColumns={columns} />
+        <IntakeTableFilters onSubmit={onFilterSubmit} allColumns={allColumns} />
         <Typography variant="body1" align="center">No data.</Typography>
       </Container>
     );
@@ -195,7 +200,7 @@ export default function IntakeTable(props) {
           onDeleteRows={onDeleteRows}
           onEditRow={() => setEditDialogOpen(true)}
           onRefreshTable={refreshTable} />
-        <IntakeTableFilters onSubmit={onFilterSubmit} allColumns={columns} />
+        <IntakeTableFilters onSubmit={onFilterSubmit} allColumns={allColumns} />
         <TableContainer>
           <Table
             aria-labelledby="tableTitle"
@@ -203,7 +208,7 @@ export default function IntakeTable(props) {
             aria-label="Data table"
           >
             <IntakeTableHead
-              headers={headers}
+              headers={shownHeaders}
               numSelected={selected.length}
               order={order}
               orderBy={orderBy}
@@ -221,6 +226,7 @@ export default function IntakeTable(props) {
                     isRowSelected={isSelected(row["row"])}
                     index={index}
                     row={row}
+                    shownColumns={shownColumns}
                   />
                 )}
               {emptyRows > 0 && (
