@@ -9,7 +9,8 @@ export default function IntakeTableFilters(props) {
   const [whereValue, setWhereValue] = useState('');
   const [columns, setColumns] = useState(allColumns);
 
-  const onFilterClick = _ => {
+  const onFilterClick = event => {
+    event.preventDefault();
     const query = {
       table: 'intake',
       columns: columns,
@@ -28,7 +29,7 @@ export default function IntakeTableFilters(props) {
         <Typography>Filters</Typography>
       </ExpansionPanelSummary>
       <ExpansionPanelDetails>
-        <form style={{ width: '100%' }}>
+        <form style={{ width: '100%' }} onSubmit={onFilterClick}>
           <InputLabel id="columns-label">Columns</InputLabel>
           <Select
             labelId="columns-label"
