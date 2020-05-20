@@ -1,27 +1,21 @@
 import React, { useState } from 'react';
-import { TextField, ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, ExpansionPanelActions, Typography, Button } from '@material-ui/core';
+import { ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, ExpansionPanelActions, Typography, Button, Select, InputLabel, Input, MenuItem, Chip, TextField } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import FilterListIcon from '@material-ui/icons/FilterList';
-import { makeField as makeWideField } from './IntakeRowForm';
 
 export default function IntakeTableFilters(props) {
-  const { onSubmit } = props;
+  const { onSubmit, allColumns } = props;
 
-  const [rowFromValue, setRowFromValue] = useState('');
-  const [rowToValue, setRowToValue] = useState('');
-  const [submissionDateFromValue, setSubmissionDateFromValue] = useState('');
-  const [submissionDateToValue, setSubmissionDateToValue] = useState('');
-  const [entityValue, setEntityValue] = useState('');
+  const [whereValue, setWhereValue] = useState('');
+  const [columns, setColumns] = useState(allColumns);
 
-  const onFilterClick = _ => {
+  const onFilterClick = event => {
+    event.preventDefault();
     const query = {
-      "row from": rowFromValue,
-      "row to": rowToValue,
-      "Submission date from": submissionDateFromValue,
-      "Submission date to": submissionDateToValue,
-      "Entity": entityValue,
+      table: 'intake',
+      columns: columns,
+      where: whereValue,
     }
-
     onSubmit(query);
   }
 
@@ -35,36 +29,28 @@ export default function IntakeTableFilters(props) {
         <Typography>Filters</Typography>
       </ExpansionPanelSummary>
       <ExpansionPanelDetails>
-        <form style={{ width: '100%' }}>
-          <div>
-            <TextField
-              style={{ marginBottom: '1rem' }}
-              variant="outlined"
-              label="row from"
-              onChange={e => setRowFromValue(e.target.value)}
-            />
-            <TextField
-              style={{ margin: '0 0 1rem 1rem' }}
-              variant="outlined"
-              label="row to"
-              onChange={e => setRowToValue(e.target.value)}
-            />
-          </div>
-          <div>
-            <TextField
-              style={{ marginBottom: '1rem' }}
-              label="Submission date from"
-              variant="outlined"
-              onChange={e => setSubmissionDateFromValue(e.target.value)}
-            />
-            <TextField
-              style={{ margin: '0 0 1rem 1rem' }}
-              label="Submission date to"
-              variant="outlined"
-              onChange={e => setSubmissionDateToValue(e.target.value)}
-            />
-          </div>
-          {makeWideField('Entity', '', e => setEntityValue(e.target.value))}
+        <form style={{ width: '100%' }} onSubmit={onFilterClick}>
+          <InputLabel id="columns-label">Columns</InputLabel>
+          <Select
+            labelId="columns-label"
+            id="columns-select"
+            multiple
+            value={columns}
+            onChange={e => setColumns(e.target.value)}
+            input={<Input />}
+            renderValue={selected => selected.map(elem => <Chip key={elem} label={elem} />)}
+            style={{ width: '100%' }}
+          >
+            {allColumns.map(column =>
+              <MenuItem key={column} value={column}>{column}</MenuItem>
+            )}
+          </Select>
+          <TextField
+            style={{ marginTop: '1rem' }}
+            fullWidth
+            label="Where"
+            onChange={e => setWhereValue(e.target.value)}
+          />
         </form>
       </ExpansionPanelDetails>
       <ExpansionPanelActions>

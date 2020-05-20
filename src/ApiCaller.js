@@ -2,11 +2,19 @@ export async function getIntakeTable() {
   return fetch('https://capstone.sugar.coffee/list?table=intake').then(res => res.json());
 }
 
-export async function filterIntakeTable(query) {
-  return {
-    returnCode: 200,
-    data: [],
+export async function filterIntakeTable(queryWhere) {
+  const query = {
+    table: 'intake',
+    where: queryWhere,
   }
+
+  return fetch('https://capstone.sugar.coffee/query', {
+    method: 'post',
+    headers: {
+      'Content-type': 'application/json'
+    },
+    body: JSON.stringify(query),
+  }).then(res => res.json())
 }
 
 export async function addRow(row) {
