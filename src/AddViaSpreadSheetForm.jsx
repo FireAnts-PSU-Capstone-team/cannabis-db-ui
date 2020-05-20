@@ -13,13 +13,17 @@ export default function AddViaSpreadSheetForm() {
       let addPromises = [];
 
       files.forEach(file => {
-        addPromises.push(addFile(file).then(res => console.log(res, file)));
+        addPromises.push(addFile(file)
+          .then(res => console.log(res, file)))
+          .catch(err => console.log(err));
       });
 
-      Promise.all(addPromises).then(() => {
-        console.log('all files submitted');
-        setFiles([]);
-      });
+      Promise.all(addPromises)
+        .then(() => {
+          console.log('all files submitted');
+          setFiles([]);
+        })
+        .catch(err => console.log(err));
     } else {
       console.log('no files to submit');
     }

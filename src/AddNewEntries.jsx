@@ -11,7 +11,7 @@ export default function AddNewEntries(props) {
   const { isUserAdmin } = props;
 
   const onAddAnEntry = rowToAdd => {
-    addRow(rowToAdd).then(res => console.log(res));
+    addRow(rowToAdd).then(res => console.log(res)).catch(err => console.log(err));
   }
 
   if (isUserAdmin) {

@@ -85,10 +85,12 @@ export default function IntakeTable(props) {
   const getRow = rowNumber => rows.find(row => row['row'] === rowNumber);
 
   const refreshTable = () => {
-    getIntakeTable().then(rows => {
-      setRows(rows);
-      setSelected([]);
-    });
+    getIntakeTable()
+      .then(rows => {
+        setRows(rows);
+        setSelected([]);
+      })
+      .catch(err => console.log(err));
     console.log('table refreshed');
   }
 
@@ -151,14 +153,19 @@ export default function IntakeTable(props) {
       let deletePromises = [];
 
       selected.forEach(rowNumber => {
-        deletePromises.push(deleteRow(rowNumber).then(res => console.log(res, rowNumber)));
+        deletePromises
+          .push(deleteRow(rowNumber)
+            .then(res => console.log(res, rowNumber))
+            .catch(err => console.log(err)));
       });
 
-      Promise.all(deletePromises).then(() => {
-        console.log(`yeeted rows: ${selected}`);
-        setSelected([]);
-        refreshTable();
-      });
+      Promise.all(deletePromises)
+        .then(() => {
+          console.log(`yeeted rows: ${selected}`);
+          setSelected([]);
+          refreshTable();
+        })
+        .catch(err => console.log(err));
     } else {
       console.log('no rows to yeet');
     }
@@ -166,7 +173,9 @@ export default function IntakeTable(props) {
 
   const onEditRow = newRow => {
     if (selected.length === 1) {
-      editRow(newRow).then(res => console.log(res));
+      editRow(newRow)
+        .then(res => console.log(res))
+        .catch(err => console.log(err));
     } else {
       console.log('somehow you selected 0 or more than 1 row to edit');
     }
@@ -175,10 +184,12 @@ export default function IntakeTable(props) {
   const onFilterSubmit = query => {
     setShownColumns(query.columns);
 
-    filterIntakeTable(query.where).then(rows => {
-      console.log('filtered', rows);
-      setRows(rows);
-    }).catch(err => console.log(err));
+    filterIntakeTable(query.where)
+      .then(rows => {
+        console.log('filtered', rows);
+        setRows(rows);
+      })
+      .catch(err => console.log(err));
   }
 
   if (rows.length === 0) {
