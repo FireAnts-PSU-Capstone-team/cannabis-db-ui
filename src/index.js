@@ -7,6 +7,7 @@ import ThemeProvider from '@material-ui/styles/ThemeProvider';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import createMuiTheme from '@material-ui/core/styles/createMuiTheme';
 import grey from '@material-ui/core/colors/grey';
+import { AlertBarProvider } from './AlertBarContext';
 
 const theme = createMuiTheme({
   palette: {
@@ -22,7 +23,9 @@ const theme = createMuiTheme({
 ReactDOM.render(
   <ThemeProvider theme={theme}>
     <CssBaseline />
-    <App />
+    <AlertBarProvider>
+      <App />
+    </AlertBarProvider>
   </ThemeProvider>,
   document.getElementById('root')
 );
