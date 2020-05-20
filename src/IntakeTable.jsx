@@ -175,12 +175,10 @@ export default function IntakeTable(props) {
   const onFilterSubmit = query => {
     setShownColumns(query.columns);
 
-    const urlQuery = `table=intake&columns=${allColumns.join()}&where=${query.where}`;
-
-    filterIntakeTable(urlQuery).then(rows => {
+    filterIntakeTable(query.where).then(rows => {
       console.log('filtered', rows);
       setRows(rows);
-    });
+    }).catch(err => console.log(err));
   }
 
   if (rows.length === 0) {
