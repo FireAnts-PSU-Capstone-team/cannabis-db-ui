@@ -1,17 +1,30 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Grid from '@material-ui/core/Grid';
 import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
 import './style.css';
 import IntakeRowForm from './IntakeRowForm';
 import AddViaSpreadSheetForm from './AddViaSpreadSheetForm';
-import { addRow } from './ApiCaller';
+import { addRow, getErrorMessage } from './ApiCaller';
+import { AlertBarContext } from './AlertBarContext';
 
 export default function AddNewEntries(props) {
   const { isUserAdmin } = props;
 
+  const openAlertBar = useContext(AlertBarContext);
+
   const onAddAnEntry = rowToAdd => {
-    addRow(rowToAdd).then(res => console.log(res)).catch(err => console.log(err));
+    addRow(rowToAdd)
+      .then(res => {
+        console.log('added row', res);
+        openAlertBar('success', `Added row ${res.row}`);
+      })
+      .catch(err => {
+        getErrorMessage(err).then(errorMessage => {
+          console.log('add row fail', errorMessage);
+          openAlertBar('error', `Failed to add row. Error message: ${errorMessage}`);
+        });
+      });
   }
 
   if (isUserAdmin) {

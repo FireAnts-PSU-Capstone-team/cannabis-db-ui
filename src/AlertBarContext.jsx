@@ -12,6 +12,9 @@ export function AlertBarProvider(props) {
   const openAlertBar = (severity, message) => {
     setSeverity(severity);
     setMessage(message);
+    if (open) {
+      setOpen(false);
+    }
     setOpen(true);
   };
 
@@ -32,7 +35,7 @@ export function AlertBar(props) {
   };
 
   return (
-    <Snackbar open={open} autoHideDuration={6000} onClose={onClose} anchorOrigin={anchorOrigin}>
+    <Snackbar open={open} onClose={onClose} anchorOrigin={anchorOrigin}>
       <Alert variant="filled" onClose={onClose} severity={severity}>{message}</Alert>
     </Snackbar>
   );
