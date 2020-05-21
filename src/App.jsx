@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Grid, Button, Typography } from '@material-ui/core';
 import Nav from './Nav';
 import Title from './Title';
@@ -7,7 +7,8 @@ import AddNewEntries from './AddNewEntries';
 import SeeTheData from './SeeTheData';
 import VisualizeWithTableau from './VisualizeWithTableau';
 import LoginDialog from './LoginDialog';
-import { login, logout } from './ApiCaller';
+import { login, logout, getErrorMessage } from './ApiCaller';
+import { AlertBarContext } from './AlertBarContext';
 
 export default function App() {
   const [navValue, setNavValue] = useState(2);
@@ -17,11 +18,12 @@ export default function App() {
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
   const [isUserAdmin, setIsUserAdmin] = useState(false);
 
+  const openAlertBar = useContext(AlertBarContext);
+
   const onLogin = credentials => {
     setLoginDialogOpen(false);
     login(credentials)
       .then(res => {
-        console.log(res, credentials, 'logged in');
         setIsUserLoggedIn(true);
         setUsername(res.name)
         if (res.is_admin === true) {
@@ -29,18 +31,33 @@ export default function App() {
         } else {
           setIsUserAdmin(false);
         }
+
+        console.log('logged in', res);
+        openAlertBar('success', `Logged in as ${res.name}.`);
       })
-      .catch(err => console.log(err));
+      .catch(err => {
+        getErrorMessage(err).then(errorMessage => {
+          console.log('log in fail', errorMessage);
+          openAlertBar(`Failed to log in. Error message: ${errorMessage}`);
+        });
+      });
   };
 
   const onLogout = () => {
     logout()
       .then(res => {
-        console.log("login'nt", res);
         setIsUserAdmin(false);
         setIsUserLoggedIn(false);
+
+        console.log('logged out', res);
+        openAlertBar('success', 'Logged out.');
       })
-      .catch(err => console.log(err));
+      .catch(err => {
+        getErrorMessage(err).then(errorMessage => {
+          console.log('log out fail', errorMessage);
+          openAlertBar('warning', `Failed to log out. Error message: ${errorMessage}`);
+        });
+      });
   }
 
   const onNavChange = (_, newValue) => {

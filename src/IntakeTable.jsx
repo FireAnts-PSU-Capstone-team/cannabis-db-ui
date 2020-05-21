@@ -1,13 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Table, TableBody, TableCell, TableContainer, TablePagination, TableRow, FormControlLabel, Switch, Typography } from '@material-ui/core';
 import Container from '@material-ui/core/Container';
 import './style.css';
-import { getIntakeTable, deleteRow, filterIntakeTable, editRow } from './ApiCaller';
+import { getIntakeTable, deleteRow, filterIntakeTable, editRow, getErrorMessage } from './ApiCaller';
 import IntakeTableFilters from './IntakeTableFilters';
 import IntakeRowForm from './IntakeRowForm';
 import IntakeTableHead from './IntakeTableHead';
 import IntakeTableRow from './IntakeTableRow';
 import IntakeTableToolbar from './IntakeTableToolbar';
+import { AlertBarContext } from './AlertBarContext';
 
 const headers = [
   { id: 'row', numeric: true, label: 'row' },
@@ -80,16 +81,27 @@ export default function IntakeTable(props) {
   const [shownColumns, setShownColumns] = useState(allColumns);
   const [rows, setRows] = useState([]);
 
+  const openAlertBar = useContext(AlertBarContext);
+
   const shownHeaders = headers.filter(header => shownColumns.includes(header.label));
 
   const getRow = rowNumber => rows.find(row => row['row'] === rowNumber);
 
   const refreshTable = () => {
-    getIntakeTable().then(rows => {
-      setRows(rows);
-      setSelected([]);
-    });
-    console.log('table refreshed');
+    getIntakeTable()
+      .then(rows => {
+        setRows(rows);
+        setSelected([]);
+
+        console.log('table refreshed');
+        openAlertBar('success', 'Intake table refreshed');
+      })
+      .catch(err => {
+        getErrorMessage(err).then(errorMessage => {
+          console.log('table refresh fail', errorMessage);
+          openAlertBar('error', `Failed to refresh intake table. Error message: ${errorMessage}`);
+        });
+      });
   }
 
   useEffect(refreshTable, []);
@@ -150,35 +162,63 @@ export default function IntakeTable(props) {
     if (selected.length > 0) {
       let deletePromises = [];
 
-      selected.forEach(rowNumber => {
-        deletePromises.push(deleteRow(rowNumber).then(res => console.log(res, rowNumber)));
-      });
+      selected.forEach(rowNumber => deletePromises.push(deleteRow(rowNumber)));
 
-      Promise.all(deletePromises).then(() => {
-        console.log(`yeeted rows: ${selected}`);
-        setSelected([]);
-        refreshTable();
-      });
+      Promise.all(deletePromises)
+        .then(() => {
+          refreshTable();
+          console.log(`deleted rows: ${selected}`);
+          openAlertBar('success', `Deleted rows: ${selected}`);
+        })
+        .catch(err => {
+          getErrorMessage(err).then(errorMessage => {
+            console.log('delete rows fail', errorMessage);
+            openAlertBar('error', `Failed to delete rows. Error message: ${errorMessage}`);
+          });
+        })
+        .finally(() => setSelected([]));
     } else {
-      console.log('no rows to yeet');
+      console.log('no rows to delete');
+      openAlertBar('error', 'No rows to delete');
     }
   };
 
   const onEditRow = newRow => {
     if (selected.length === 1) {
-      editRow(newRow).then(res => console.log(res));
+      editRow(newRow)
+        .then(() => {
+          refreshTable();
+          console.log(`edited row: ${selected}`);
+          openAlertBar('success', `Edited row: ${selected}`);
+        })
+        .catch(err => {
+          getErrorMessage(err).then(errorMessage => {
+            console.log('edit row fail', errorMessage);
+            openAlertBar('error', `Failed to edit row. Error message: ${errorMessage}`);
+          });
+        })
+        .finally(() => setSelected([]));
     } else {
-      console.log('somehow you selected 0 or more than 1 row to edit');
+      console.log('cannot edit more than 1 row');
+      openAlertBar('error', 'Cannot edit more than one row');
     }
   }
 
   const onFilterSubmit = query => {
-    setShownColumns(query.columns);
+    filterIntakeTable(query.where)
+      .then(rows => {
+        setRows(rows);
+        setShownColumns(query.columns);
 
-    filterIntakeTable(query.where).then(rows => {
-      console.log('filtered', rows);
-      setRows(rows);
-    }).catch(err => console.log(err));
+        console.log('filtered', rows);
+        openAlertBar('success', 'Filtered intake table');
+      })
+      .catch(err => {
+        getErrorMessage(err).then(errorMessage => {
+          console.log('filter fail', errorMessage);
+          openAlertBar('error', `Failed to filter intake table. Error message: ${errorMessage}`);
+        });
+      });
   }
 
   if (rows.length === 0) {

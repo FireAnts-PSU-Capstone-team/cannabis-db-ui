@@ -1,5 +1,13 @@
+export async function getErrorMessage(err) {
+  if (err.text) return err.text()
+  else return Promise.resolve(err)
+}
+
 export async function getIntakeTable() {
-  return fetch('https://capstone.sugar.coffee/list?table=intake').then(res => res.json());
+  return fetch('https://capstone.sugar.coffee/list?table=intake').then(response => {
+    if (!response.ok) throw response;
+    return response.json();
+  });
 }
 
 export async function filterIntakeTable(queryWhere) {
@@ -14,7 +22,10 @@ export async function filterIntakeTable(queryWhere) {
       'Content-type': 'application/json'
     },
     body: JSON.stringify(query),
-  }).then(res => res.json())
+  }).then(response => {
+    if (!response.ok) throw response;
+    return response.json();
+  });
 }
 
 export async function addRow(row) {
@@ -24,7 +35,10 @@ export async function addRow(row) {
       'Content-type': 'application/json'
     },
     body: JSON.stringify(row),
-  }).then(res => res.json())
+  }).then(response => {
+    if (!response.ok) throw response;
+    return response.json();
+  });
 }
 
 export async function addFile(file) {
@@ -34,7 +48,10 @@ export async function addFile(file) {
   return fetch('https://capstone.sugar.coffee/load', {
     method: 'post',
     body: data,
-  }).then(res => res.json())
+  }).then(response => {
+    if (!response.ok) throw response;
+    return response.json();
+  });
 }
 
 export async function deleteRow(row) {
