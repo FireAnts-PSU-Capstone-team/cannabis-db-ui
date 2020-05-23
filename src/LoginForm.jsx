@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Button, TextField, Typography } from '@material-ui/core';
-import { makeField } from './IntakeRowForm';
 
 export default function LoginForm(props) {
   const { onSubmit } = props;
@@ -8,7 +7,9 @@ export default function LoginForm(props) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const onFormSubmit = () => {
+  const onFormSubmit = event => {
+    event.preventDefault();
+
     if (email.length > 0 && password.length > 0) {
       const userCredentials = {
         email: email,
@@ -22,18 +23,26 @@ export default function LoginForm(props) {
   };
 
   return (
-    <form onSubmit={onFormSubmit} aria-label="login-form">
+    <form onSubmit={onFormSubmit} aria-label="login-form" >
       <Typography
-        style={{ margin: '1rem 0' }}
+        style={{ marginTop: '1.5rem' }}
         variant="h6"
         align="center"
       >
         Login
       </Typography>
-      {makeField('Email', '', e => setEmail(e.target.value))}
       <TextField
-        style={{ marginBottom: '1rem' }}
+        style={{ display: 'block' }}
         fullWidth
+        margin="normal"
+        label="Email"
+        variant="outlined"
+        onChange={e => setEmail(e.target.value)}
+      />
+      <TextField
+        style={{ display: 'block' }}
+        fullWidth
+        margin="normal"
         label="Password"
         type="password"
         variant="outlined"
@@ -48,6 +57,6 @@ export default function LoginForm(props) {
       >
         Submit
       </Button>
-    </form>
+    </form >
   );
 }

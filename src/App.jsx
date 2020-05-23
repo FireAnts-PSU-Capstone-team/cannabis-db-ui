@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { Grid, Button, Typography } from '@material-ui/core';
+import { Grid, Button, Typography, Container } from '@material-ui/core';
 import Nav from './Nav';
 import Title from './Title';
 import WhatsNew from './WhatsNew';
@@ -77,36 +77,30 @@ export default function App() {
     }
   };
 
-  return (
-    <Grid container spacing={1} xs={12} direction="column" justify="center" alignItems="center">
-      {isUserLoggedIn ?
-        <>
-          <Grid item xs={12}>
-            <Grid container item xs={12} justify="space-between" alignItems="center">
-              <Grid item>
-                <Title />
-              </Grid>
-              <Grid item>
-                <Typography variant="body1" align="right">Hi there, {username}</Typography>
-                <Button style={{ float: 'right' }} onClick={onLogout}>Logout</Button>
-              </Grid>
-            </Grid>
-            <Grid item xs={12}>
-              <Nav navValue={navValue} onNavChange={onNavChange} />
-            </Grid>
-            <Grid item xs={12}>
-              {getComponentMatchingNavValue()}
-            </Grid>
-          </Grid>
-        </> :
-        <>
+  if (isUserLoggedIn) {
+    return (
+      <Container>
+        <Grid container item xs={12} justify="space-between" alignItems="center">
           <Grid item>
             <Title />
           </Grid>
           <Grid item>
-            <LoginForm onSubmit={onLogin} />
+            <Typography variant="body1" align="right">Hi there, {username}</Typography>
+            <Button style={{ float: 'right' }} onClick={onLogout}>Logout</Button>
           </Grid>
-        </>}
-    </Grid>
-  );
+        </Grid>
+        <Nav navValue={navValue} onNavChange={onNavChange} />
+        {getComponentMatchingNavValue()}
+      </Container>
+    );
+  } else {
+    return (
+      <Container>
+        <Title />
+        <Container maxWidth="xs">
+          <LoginForm onSubmit={onLogin} />
+        </Container>
+      </Container>
+    );
+  }
 }
