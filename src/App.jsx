@@ -80,24 +80,35 @@ export default function App() {
   };
 
   return (
-    <Grid container spacing={1}>
-      <Grid item xs={12} sm={6}>
-        <Title />
-      </Grid>
-      <Grid item xs={12} sm={6}>
-        {isUserLoggedIn ?
-          <>
-            <Button style={{ margin: '1rem 1rem', float: 'right' }} onClick={onLogout}>Logout</Button>
-            <Typography variant="body1" style={{ marginTop: '1.35rem' }} align="right">Hi there, {username}</Typography>
-          </> :
-          <Button style={{ margin: '1rem 1rem', float: 'right' }} onClick={() => setLoginDialogOpen(true)}>Login</Button>}
-      </Grid>
-      <Grid item xs={12}>
-        <Nav navValue={navValue} onNavChange={onNavChange} />
-      </Grid>
-      <Grid item xs={12}>
-        {getComponentMatchingNavValue()}
-      </Grid>
+    <Grid container spacing={1} xs={12} direction="column" justify="center" alignItems="center">
+      {isUserLoggedIn ?
+        <>
+          <Grid item xs={12}>
+            <Grid container item xs={12} justify="space-between" alignItems="center">
+              <Grid item>
+                <Title />
+              </Grid>
+              <Grid item>
+                <Typography variant="body1" align="right">Hi there, {username}</Typography>
+                <Button style={{ float: 'right' }} onClick={onLogout}>Logout</Button>
+              </Grid>
+            </Grid>
+            <Grid item xs={12}>
+              <Nav navValue={navValue} onNavChange={onNavChange} />
+            </Grid>
+            <Grid item xs={12}>
+              {getComponentMatchingNavValue()}
+            </Grid>
+          </Grid>
+        </> :
+        <>
+          <Grid item>
+            <Title />
+          </Grid>
+          <Grid item>
+            <Button onClick={() => setLoginDialogOpen(true)}>Login</Button>
+          </Grid>
+        </>}
       <LoginDialog
         open={loginDialogOpen}
         onClose={() => setLoginDialogOpen(false)}

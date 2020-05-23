@@ -223,7 +223,7 @@ export default function IntakeTable(props) {
 
   if (rows.length === 0) {
     return (
-      <Container maxWidth="lg">
+      <Container>
         <IntakeTableToolbar isUserAdmin={isUserAdmin} numSelected={selected.length} />
         <IntakeTableFilters onSubmit={onFilterSubmit} allColumns={allColumns} />
         <Typography variant="body1" align="center">No data.</Typography>
@@ -231,7 +231,7 @@ export default function IntakeTable(props) {
     );
   } else {
     return (
-      <Container maxWidth="lg">
+      <Container>
         <IntakeTableToolbar
           isUserAdmin={isUserAdmin}
           numSelected={selected.length}

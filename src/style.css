@@ -8,8 +8,6 @@ h1 {
 }
 
 .title {
-  padding-top: 1rem;
-  padding-left: 1rem;
   font-family: Pompiere;
   font-style: normal;
   font-weight: normal;
@@ -17,7 +15,6 @@ h1 {
 }
 
 .subtitle {
-  padding-left: 4rem;
   font-family: Lato;
   font-style: normal;
   font-weight: normal;
