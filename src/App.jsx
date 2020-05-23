@@ -6,13 +6,12 @@ import WhatsNew from './WhatsNew';
 import AddNewEntries from './AddNewEntries';
 import SeeTheData from './SeeTheData';
 import VisualizeWithTableau from './VisualizeWithTableau';
-import LoginDialog from './LoginDialog';
+import LoginForm from './LoginForm';
 import { login, logout, getErrorMessage } from './ApiCaller';
 import { AlertBarContext } from './AlertBarContext';
 
 export default function App() {
   const [navValue, setNavValue] = useState(2);
-  const [loginDialogOpen, setLoginDialogOpen] = useState(false);
 
   const [username, setUsername] = useState('');
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
@@ -21,7 +20,6 @@ export default function App() {
   const openAlertBar = useContext(AlertBarContext);
 
   const onLogin = credentials => {
-    setLoginDialogOpen(false);
     login(credentials)
       .then(res => {
         setIsUserLoggedIn(true);
@@ -106,14 +104,9 @@ export default function App() {
             <Title />
           </Grid>
           <Grid item>
-            <Button onClick={() => setLoginDialogOpen(true)}>Login</Button>
+            <LoginForm onSubmit={onLogin} />
           </Grid>
         </>}
-      <LoginDialog
-        open={loginDialogOpen}
-        onClose={() => setLoginDialogOpen(false)}
-        onSubmit={onLogin}
-      />
     </Grid>
   );
 }
