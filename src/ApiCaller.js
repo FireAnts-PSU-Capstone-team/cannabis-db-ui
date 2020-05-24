@@ -72,6 +72,7 @@ export async function login(credentials) {
     email: 'admin@gmail.com',
     name: 'admin',
     is_admin: true,
+    read_only: true,
   }
 }
 

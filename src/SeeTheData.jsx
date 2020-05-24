@@ -1,10 +1,8 @@
 import React from 'react';
 import IntakeTable from './IntakeTable';
 
-export default function SeeTheData(props) {
-  const { isUserAdmin } = props;
-
+export default function SeeTheData() {
   return (
-    <IntakeTable isUserAdmin={isUserAdmin} />
+    <IntakeTable />
   );
 }

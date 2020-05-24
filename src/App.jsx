@@ -9,26 +9,22 @@ import VisualizeWithTableau from './VisualizeWithTableau';
 import LoginForm from './LoginForm';
 import { login, logout, getErrorMessage } from './ApiCaller';
 import { AlertBarContext } from './AlertBarContext';
+import { UserContext } from './UserContext';
 
 export default function App() {
   const [navValue, setNavValue] = useState(2);
-
-  const [username, setUsername] = useState('');
-  const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
-  const [isUserAdmin, setIsUserAdmin] = useState(false);
-
+  const [user, userDispatch] = useContext(UserContext);
   const openAlertBar = useContext(AlertBarContext);
 
   const onLogin = credentials => {
     login(credentials)
       .then(res => {
-        setIsUserLoggedIn(true);
-        setUsername(res.name)
-        if (res.is_admin === true) {
-          setIsUserAdmin(true);
-        } else {
-          setIsUserAdmin(false);
-        }
+        userDispatch({
+          type: 'login',
+          name: res.name,
+          isAdmin: res.is_admin,
+          isReadOnly: res.read_only,
+        });
 
         console.log('logged in', res);
         openAlertBar('success', `Logged in as ${res.name}.`);
@@ -44,8 +40,7 @@ export default function App() {
   const onLogout = () => {
     logout()
       .then(res => {
-        setIsUserAdmin(false);
-        setIsUserLoggedIn(false);
+        userDispatch({ type: 'logout' });
 
         console.log('logged out', res);
         openAlertBar('success', 'Logged out.');
@@ -65,19 +60,19 @@ export default function App() {
   const getComponentMatchingNavValue = () => {
     switch (navValue) {
       case 0:
-        return <WhatsNew isUserAdmin={isUserAdmin} />;
+        return <WhatsNew />;
       case 1:
-        return <AddNewEntries isUserAdmin={isUserAdmin} />;
+        return <AddNewEntries />;
       case 2:
-        return <SeeTheData isUserAdmin={isUserAdmin} />;
+        return <SeeTheData />;
       case 3:
-        return <VisualizeWithTableau isUserAdmin={isUserAdmin} />;
+        return <VisualizeWithTableau />;
       default:
         break;
     }
   };
 
-  if (isUserLoggedIn) {
+  if (user.isLoggedIn) {
     return (
       <Container>
         <Grid container item xs={12} justify="space-between" alignItems="center">
@@ -85,7 +80,7 @@ export default function App() {
             <Title />
           </Grid>
           <Grid item>
-            <Typography variant="body1" align="right">Hi there, {username}</Typography>
+            <Typography variant="body1" align="right">Hi there, {user.name}</Typography>
             <Button style={{ float: 'right' }} onClick={onLogout}>Logout</Button>
           </Grid>
         </Grid>
@@ -95,11 +90,9 @@ export default function App() {
     );
   } else {
     return (
-      <Container>
+      <Container maxWidth="xs">
         <Title />
-        <Container maxWidth="xs">
-          <LoginForm onSubmit={onLogin} />
-        </Container>
+        <LoginForm onSubmit={onLogin} />
       </Container>
     );
   }
