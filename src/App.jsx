@@ -7,7 +7,7 @@ import AddNewEntries from './AddNewEntries';
 import SeeTheData from './SeeTheData';
 import VisualizeWithTableau from './VisualizeWithTableau';
 import LoginForm from './LoginForm';
-import { login, logout, getErrorMessage } from './ApiCaller';
+import { login, logout, getErrorMessage, enableReadOnly } from './ApiCaller';
 import { AlertBarContext } from './AlertBarContext';
 import { UserContext } from './UserContext';
 
@@ -53,6 +53,36 @@ export default function App() {
       });
   }
 
+  const onEnableReadOnly = () => {
+    enableReadOnly()
+      .then(_ => {
+        userDispatch({ type: 'enable-readonly' });
+        console.log('enabled read-only mode');
+        openAlertBar('success', 'Enabled read-only mode');
+      })
+      .catch(err => {
+        getErrorMessage(err).then(errorMessage => {
+          console.log('enable read-only mode fail', errorMessage);
+          openAlertBar('warning', `Failed to enable read-only mode. Error message: ${errorMessage}`);
+        });
+      });
+  }
+
+  const onDisableReadOnly = () => {
+    enableReadOnly()
+      .then(_ => {
+        userDispatch({ type: 'disable-readonly' });
+        console.log('disabled read-only mode');
+        openAlertBar('success', 'Disabled read-only mode');
+      })
+      .catch(err => {
+        getErrorMessage(err).then(errorMessage => {
+          console.log('disable read-only mode fail', errorMessage);
+          openAlertBar('warning', `Failed to disable read-only mode. Error message: ${errorMessage}`);
+        });
+      });
+  }
+
   const onNavChange = (_, newValue) => {
     setNavValue(newValue);
   }
@@ -82,6 +112,9 @@ export default function App() {
           <Grid item>
             <Typography variant="body1" align="right">Hi there, {user.name}</Typography>
             <Button style={{ float: 'right' }} onClick={onLogout}>Logout</Button>
+            {user.isReadOnly ?
+              <Button style={{ float: 'right' }} onClick={onDisableReadOnly}>Disable read-only mode</Button> :
+              <Button style={{ float: 'right' }} onClick={onEnableReadOnly}>Enable read-only mode</Button>}
           </Grid>
         </Grid>
         <Nav navValue={navValue} onNavChange={onNavChange} />

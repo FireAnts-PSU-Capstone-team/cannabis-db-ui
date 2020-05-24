@@ -72,11 +72,23 @@ export async function login(credentials) {
     email: 'admin@gmail.com',
     name: 'admin',
     is_admin: true,
-    read_only: true,
+    read_only: false,
   }
 }
 
-export async function logout(credentials) {
+export async function logout() {
+  return {
+    returnCode: 200,
+  }
+}
+
+export async function enableReadOnly() {
+  return {
+    returnCode: 200,
+  }
+}
+
+export async function disableReadOnly() {
   return {
     returnCode: 200,
   }
