@@ -7,8 +7,8 @@ const endpoints = {
   editRow: 'https://capstone.sugar.coffee/update',
   login: 'https://capstone.sugar.coffee/login',
   logout: 'https://capstone.sugar.coffee/logout',
-  enableReadOnly: '',
-  disableReadOnly: '',
+  enableReadOnly: 'https://capstone.sugar.coffee/enablereadonly',
+  disableReadOnly: 'https://capstone.sugar.coffee/disablereadonly',
 };
 
 export async function getErrorMessage(err) {
@@ -89,6 +89,14 @@ export async function editRow(row) {
 }
 
 export async function login(credentials) {
+  // return fetch(endpoints.login, {
+  //   method: 'post',
+  //   body: credentials,
+  // }).then(response => {
+  //   if (!response.ok) throw response;
+  //   return response.json();
+  // });
+
   return {
     email: 'admin@gmail.com',
     name: 'admin',
@@ -98,18 +106,33 @@ export async function login(credentials) {
 }
 
 export async function logout() {
+  // return fetch(endpoints.logout).then(response => {
+  //   if (!response.ok) throw response;
+  //   return response.json();
+  // });
+
   return {
     returnCode: 200,
   }
 }
 
 export async function enableReadOnly() {
+  // return fetch(endpoints.enableReadOnly).then(response => {
+  //   if (!response.ok) throw response;
+  //   return response.json();
+  // });
+
   return {
     returnCode: 200,
   }
 }
 
 export async function disableReadOnly() {
+  // return fetch(endpoints.disableReadOnly).then(response => {
+  //   if (!response.ok) throw response;
+  //   return response.json();
+  // });
+
   return {
     returnCode: 200,
   }
