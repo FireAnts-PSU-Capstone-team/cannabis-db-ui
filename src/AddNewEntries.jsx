@@ -7,10 +7,10 @@ import IntakeRowForm from './IntakeRowForm';
 import AddViaSpreadSheetForm from './AddViaSpreadSheetForm';
 import { addRow, getErrorMessage } from './ApiCaller';
 import { AlertBarContext } from './AlertBarContext';
+import { UserContext } from './UserContext';
 
-export default function AddNewEntries(props) {
-  const { isUserAdmin } = props;
-
+export default function AddNewEntries() {
+  const [user] = useContext(UserContext);
   const openAlertBar = useContext(AlertBarContext);
 
   const onAddAnEntry = rowToAdd => {
@@ -27,9 +27,9 @@ export default function AddNewEntries(props) {
       });
   }
 
-  if (isUserAdmin) {
+  if (user.isLoggedIn && !user.isReadOnly) {
     return (
-      <Container maxWidth="lg">
+      <Container>
         <Grid container spacing={3}>
           <Grid item xs={12} sm={12} md={4}>
             <Container maxWidth="md">
@@ -46,10 +46,20 @@ export default function AddNewEntries(props) {
         </Grid>
       </Container>
     );
+  } else if (user.isLoggedIn) {
+    return (
+      <Container>
+        <Typography variant="body1" align="center">
+          You don't have permission to add entries. Did you forget to turn off read-only mode?
+        </Typography>
+      </Container>
+    );
   } else {
     return (
-      <Container maxWidth="lg">
-        <Typography variant="body1" align="center">You are not an admin. Please log in.</Typography>
+      <Container>
+        <Typography variant="body1" align="center">
+          You are not logged in.
+        </Typography>
       </Container>
     );
   }

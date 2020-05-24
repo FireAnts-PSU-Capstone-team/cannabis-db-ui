@@ -1,11 +1,17 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Toolbar, Typography, Tooltip, IconButton } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import RefreshIcon from '@material-ui/icons/Refresh';
+import { UserContext } from './UserContext';
 
 export default function IntakeTableToolbar(props) {
-  const { numSelected, onDeleteRows, onRefreshTable, onEditRow, isUserAdmin } = props;
+  const { numSelected, onDeleteRows, onRefreshTable, onEditRow } = props;
+
+  const [user] = useContext(UserContext);
+
+  const canUserEdit = numSelected === 1 && !user.isReadOnly;
+  const canUserDelete = numSelected > 0 && user.isAdmin && !user.isReadOnly;
 
   return (
     <Toolbar>
@@ -13,14 +19,14 @@ export default function IntakeTableToolbar(props) {
       <Tooltip title="Refresh">
         <IconButton aria-label="refresh-table" onClick={onRefreshTable}><RefreshIcon /></IconButton>
       </Tooltip>
-      {(numSelected === 1 && isUserAdmin === true) ?
+      {canUserEdit &&
         <Tooltip title="Edit">
           <IconButton aria-label="edit-row" onClick={onEditRow}><EditIcon /></IconButton>
-        </Tooltip> : null}
-      {(numSelected > 0 && isUserAdmin === true) ?
+        </Tooltip>}
+      {canUserDelete &&
         <Tooltip title="Delete">
           <IconButton aria-label="delete-rows" onClick={onDeleteRows}><DeleteIcon /></IconButton>
-        </Tooltip> : null}
+        </Tooltip>}
       <Typography variant="subtitle1">{numSelected} selected</Typography>
     </Toolbar>
   );

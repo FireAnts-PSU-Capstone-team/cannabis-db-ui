@@ -1,15 +1,16 @@
 import React from 'react';
+import Grid from '@material-ui/core/Grid';
 import './style.css';
 
 export default function Title() {
   return (
-    <div>
-      <div className="title">
+    <Grid container direction="column" alignItems="center">
+      <Grid item className="title">
         Kanabi
-      </div>
-      <div className="subtitle">
+      </Grid>
+      <Grid item className="subtitle">
         by PSU FireAnts capstone team
-      </div>
-    </div>
+      </Grid>
+    </Grid>
   );
 }
