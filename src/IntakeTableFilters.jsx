@@ -19,6 +19,12 @@ export default function IntakeTableFilters(props) {
     onSubmit(query);
   }
 
+  const onResetClick = event => {
+    event.preventDefault();
+    setWhereValue('');
+    setColumns(allColumns);
+  }
+
   return (
     <ExpansionPanel>
       <ExpansionPanelSummary
@@ -48,12 +54,14 @@ export default function IntakeTableFilters(props) {
           <TextField
             style={{ marginTop: '1rem' }}
             fullWidth
+            value={whereValue}
             label="Where"
             onChange={e => setWhereValue(e.target.value)}
           />
         </form>
       </ExpansionPanelDetails>
       <ExpansionPanelActions>
+        <Button onClick={onResetClick} color="secondary">Reset</Button>
         <Button onClick={onFilterClick}>Filter</Button>
       </ExpansionPanelActions>
     </ExpansionPanel>
