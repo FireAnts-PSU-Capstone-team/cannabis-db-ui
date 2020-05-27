@@ -4,7 +4,7 @@ import Container from '@material-ui/core/Container';
 import './style.css';
 import { getIntakeTable, deleteRow, filterIntakeTable, editRow, getErrorMessage } from './ApiCaller';
 import IntakeTableFilters from './IntakeTableFilters';
-import IntakeRowForm from './IntakeRowForm';
+import IntakeRowEditFormDialog from './IntakeRowEditFormDialog';
 import IntakeTableHead from './IntakeTableHead';
 import IntakeTableRow from './IntakeTableRow';
 import IntakeTableToolbar from './IntakeTableToolbar';
@@ -257,13 +257,12 @@ export default function IntakeTable() {
           control={<Switch checked={dense} onChange={handleChangeDense} />}
           label="Dense padding"
         />
-        <IntakeRowForm
-          isDialog={true}
+        <IntakeRowEditFormDialog
           row={getRow(selected[0])}
           dialogOpen={editDialogOpen}
           onDialogClose={() => setEditDialogOpen(false)}
           onSubmit={onEditRow}
-        ></IntakeRowForm>
+        />
       </Container>
     );
   }

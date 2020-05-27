@@ -25,7 +25,7 @@ export const columns = [
     label: 'Facility Address',
   },
   {
-    id: 'facility_suite #',
+    id: 'facility_suite',
     numeric: true,
     label: 'Facility Suite #',
   },
