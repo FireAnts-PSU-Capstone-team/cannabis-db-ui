@@ -4,7 +4,7 @@ import './style.css';
 
 export const makeField = (field, value = '', handleChange) =>
   <TextField
-    style={{ marginBottom: '1rem' }}
+    margin="dense"
     fullWidth
     label={field}
     variant="outlined"
@@ -113,7 +113,7 @@ export default function IntakeAddForm(props) {
   return (
     <form>
       {formFields()}
-      <Button variant="contained" color="primary" onClick={onSubmitClick}>Submit</Button>
+      <Button style={{ marginTop: '1rem' }} variant="contained" color="primary" onClick={onSubmitClick}>Submit</Button>
     </form>
   );
 }
