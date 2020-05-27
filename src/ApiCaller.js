@@ -96,51 +96,35 @@ export async function editRow(row) {
 }
 
 export async function login(credentials) {
-  // return fetch(endpoints.login, {
-  //   method: 'post',
-  //   body: credentials,
-  // }).then(response => {
-  //   if (!response.ok) throw response;
-  //   return response.json();
-  // });
-
-  return {
-    email: 'admin@gmail.com',
-    name: 'admin',
-    is_admin: true,
-    read_only: false,
-  }
+  return fetch(endpoints.login, {
+    method: 'post',
+    headers: {
+      'Content-type': 'application/json'
+    },
+    body: JSON.stringify(credentials),
+  }).then(response => {
+    if (!response.ok) throw response;
+    return response.json();
+  });
 }
 
 export async function logout() {
-  // return fetch(endpoints.logout).then(response => {
-  //   if (!response.ok) throw response;
-  //   return response.json();
-  // });
-
-  return {
-    returnCode: 200,
-  }
+  return fetch(endpoints.logout).then(response => {
+    if (!response.ok) throw response;
+    return response.json();
+  });
 }
 
 export async function enableReadOnly() {
-  // return fetch(endpoints.enableReadOnly).then(response => {
-  //   if (!response.ok) throw response;
-  //   return response.json();
-  // });
-
-  return {
-    returnCode: 200,
-  }
+  return fetch(endpoints.enableReadOnly).then(response => {
+    if (!response.ok) throw response;
+    return response.json();
+  });
 }
 
 export async function disableReadOnly() {
-  // return fetch(endpoints.disableReadOnly).then(response => {
-  //   if (!response.ok) throw response;
-  //   return response.json();
-  // });
-
-  return {
-    returnCode: 200,
-  }
+  return fetch(endpoints.disableReadOnly).then(response => {
+    if (!response.ok) throw response;
+    return response.json();
+  });
 }

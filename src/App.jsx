@@ -32,7 +32,7 @@ export default function App() {
       .catch(err => {
         getErrorMessage(err).then(errorMessage => {
           console.log('log in fail', errorMessage);
-          openAlertBar(`Failed to log in. Error message: ${errorMessage}`);
+          openAlertBar('error', `Failed to log in. Error message: ${errorMessage}`);
         });
       });
   };
