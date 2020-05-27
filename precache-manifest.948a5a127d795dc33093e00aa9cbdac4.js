@@ -1,23 +1,23 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "6e0cc798a1115d47dc7c26542f7525df",
+    "revision": "b72d3651a7722de8840b95fbb198e8c8",
     "url": "/cannabis-db-ui/index.html"
   },
   {
-    "revision": "21c1d8645ebd3a339a1b",
+    "revision": "1ff162f01003e01a7dbb",
     "url": "/cannabis-db-ui/static/css/main.ed88b23c.chunk.css"
   },
   {
-    "revision": "12ec0b2b3f92866f9f2c",
-    "url": "/cannabis-db-ui/static/js/2.7934b750.chunk.js"
+    "revision": "14b9b9c80930072acfb7",
+    "url": "/cannabis-db-ui/static/js/2.657d1095.chunk.js"
   },
   {
     "revision": "7ea21cf83fd98f392cea78cd04e6b0fa",
-    "url": "/cannabis-db-ui/static/js/2.7934b750.chunk.js.LICENSE.txt"
+    "url": "/cannabis-db-ui/static/js/2.657d1095.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "21c1d8645ebd3a339a1b",
-    "url": "/cannabis-db-ui/static/js/main.6ee59186.chunk.js"
+    "revision": "1ff162f01003e01a7dbb",
+    "url": "/cannabis-db-ui/static/js/main.1d71562e.chunk.js"
   },
   {
     "revision": "eb06e53a1e2a95aac7e3",
