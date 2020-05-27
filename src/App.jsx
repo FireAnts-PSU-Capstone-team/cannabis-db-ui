@@ -48,7 +48,7 @@ export default function App() {
       .catch(err => {
         getErrorMessage(err).then(errorMessage => {
           console.log('log out fail', errorMessage);
-          openAlertBar('warning', `Failed to log out. Error message: ${errorMessage}`);
+          openAlertBar('error', `Failed to log out. Error message: ${errorMessage}`);
         });
       });
   }
@@ -63,7 +63,7 @@ export default function App() {
       .catch(err => {
         getErrorMessage(err).then(errorMessage => {
           console.log('enable read-only mode fail', errorMessage);
-          openAlertBar('warning', `Failed to enable read-only mode. Error message: ${errorMessage}`);
+          openAlertBar('error', `Failed to enable read-only mode. Error message: ${errorMessage}`);
         });
       });
   }
@@ -78,7 +78,7 @@ export default function App() {
       .catch(err => {
         getErrorMessage(err).then(errorMessage => {
           console.log('disable read-only mode fail', errorMessage);
-          openAlertBar('warning', `Failed to disable read-only mode. Error message: ${errorMessage}`);
+          openAlertBar('error', `Failed to disable read-only mode. Error message: ${errorMessage}`);
         });
       });
   }
