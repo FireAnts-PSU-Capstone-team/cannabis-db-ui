@@ -4,42 +4,14 @@ import Container from '@material-ui/core/Container';
 import './style.css';
 import { getIntakeTable, deleteRow, filterIntakeTable, editRow, getErrorMessage } from './ApiCaller';
 import IntakeTableFilters from './IntakeTableFilters';
-import IntakeRowForm from './IntakeRowForm';
+import IntakeRowEditFormDialog from './IntakeRowEditFormDialog';
 import IntakeTableHead from './IntakeTableHead';
 import IntakeTableRow from './IntakeTableRow';
 import IntakeTableToolbar from './IntakeTableToolbar';
 import { AlertBarContext } from './AlertBarContext';
+import { columns } from './IntakeTableColumns';
 
-const headers = [
-  { id: 'row', numeric: true, label: 'row' },
-  { id: 'Submission date', numeric: false, label: 'Submission date' },
-  { id: 'Entity', numeric: false, label: 'Entity' },
-  { id: 'DBA', numeric: false, label: 'DBA' },
-  { id: 'Facility Address', numeric: false, label: 'Facility Address' },
-  { id: 'Facility Suite #', numeric: true, label: 'Facility Suite #' },
-  { id: 'Facility Zip', numeric: true, label: 'Facility Zip' },
-  { id: 'Mailing Address', numeric: false, label: 'Mailing Address' },
-  { id: 'MRL', numeric: false, label: 'MRL' },
-  { id: 'Neighborhood Association', numeric: false, label: 'Neighborhood Association' },
-  { id: 'Compliance Region', numeric: false, label: 'Compliance Region' },
-  { id: 'Primary Contact First Name', numeric: false, label: 'Primary Contact First Name' },
-  { id: 'Primary Contact Last Name', numeric: false, label: 'Primary Contact Last Name' },
-  { id: 'Email', numeric: false, label: 'Email' },
-  { id: 'Phone', numeric: false, label: 'Phone' },
-  { id: 'Endorse Type', numeric: false, label: 'Endorse Type' },
-  { id: 'License Type', numeric: false, label: 'License Type' },
-  { id: 'Repeat location?', numeric: false, label: 'Repeat location?' },
-  { id: 'App complete?', numeric: false, label: 'App complete?' },
-  { id: 'Fee Schedule', numeric: false, label: 'Fee Schedule' },
-  { id: 'Receipt No.', numeric: false, label: 'Receipt No.' },
-  { id: 'Cash Amount', numeric: false, label: 'Cash Amount' },
-  { id: 'Check Amount', numeric: false, label: 'Check Amount' },
-  { id: 'Card Amount', numeric: false, label: 'Card Amount' },
-  { id: 'Check No. / Approval Code', numeric: true, label: 'Check No. / Approval Code' },
-  { id: 'MRL#', numeric: false, label: 'MRL#' },
-  { id: 'Notes', numeric: false, label: 'Notes' },
-];
-
+const headers = columns;
 const allColumns = headers.map(header => header.label);
 
 function descendingComparator(a, b, orderBy) {
@@ -69,7 +41,6 @@ function stableSort(array, comparator) {
 }
 
 export default function IntakeTable() {
-
   const [order, setOrder] = useState('asc');
   const [orderBy, setOrderBy] = useState('row');
   const [selected, setSelected] = useState([]);
@@ -286,13 +257,12 @@ export default function IntakeTable() {
           control={<Switch checked={dense} onChange={handleChangeDense} />}
           label="Dense padding"
         />
-        <IntakeRowForm
-          isDialog={true}
+        <IntakeRowEditFormDialog
           row={getRow(selected[0])}
           dialogOpen={editDialogOpen}
           onDialogClose={() => setEditDialogOpen(false)}
           onSubmit={onEditRow}
-        ></IntakeRowForm>
+        />
       </Container>
     );
   }

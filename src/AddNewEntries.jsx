@@ -3,7 +3,7 @@ import Grid from '@material-ui/core/Grid';
 import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
 import './style.css';
-import IntakeRowForm from './IntakeRowForm';
+import IntakeRowAddForm from './IntakeRowAddForm';
 import AddViaSpreadSheetForm from './AddViaSpreadSheetForm';
 import { addRow, getErrorMessage } from './ApiCaller';
 import { AlertBarContext } from './AlertBarContext';
@@ -40,7 +40,7 @@ export default function AddNewEntries() {
           <Grid item xs={12} sm={12} md={8}>
             <Container maxWidth="md">
               <h1>Add an entry</h1>
-              <IntakeRowForm onSubmit={onAddAnEntry} />
+              <IntakeRowAddForm onSubmit={onAddAnEntry} />
             </Container>
           </Grid>
         </Grid>

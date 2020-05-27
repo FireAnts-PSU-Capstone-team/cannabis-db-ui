@@ -1,50 +1,16 @@
 import React, { useState } from 'react';
-import { TextField, Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@material-ui/core';
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@material-ui/core';
 import './style.css';
+import { makeField } from './IntakeRowAddForm';
+import { columns } from './IntakeTableColumns';
 
-export const makeField = (field, value = '', handleChange) =>
-  <TextField
-    style={{ marginBottom: '1rem' }}
-    fullWidth
-    label={field}
-    variant="outlined"
-    onChange={handleChange}
-    defaultValue={value}
-  />;
+const emptyRow = Object.fromEntries(columns.map(column => [column.id, '']));
 
-export default function IntakeRowForm(props) {
-  const { isDialog, dialogOpen, onDialogClose, row, onSubmit } = props;
+export default function IntakeRowEditFormDialog(props) {
+  const { dialogOpen, onDialogClose, row, onSubmit } = props;
 
   // row could be undefined, in this case we let row be empty strings
-  const theRow = row || {
-    "row": "",
-    "Submission date": "",
-    "Entity": "",
-    "DBA": "",
-    "Facility Address": "",
-    "Facility Suite #": "",
-    "Facility Zip": "",
-    "Mailing Address": "",
-    "MRL": "",
-    "Neighborhood Association": "",
-    "Compliance Region": "",
-    "Primary Contact First Name": "",
-    "Primary Contact Last Name": "",
-    "Email": "",
-    "Phone": "",
-    "Endorse Type": "",
-    "License Type": "",
-    "Repeat location?": "",
-    "App complete?": "",
-    "Fee Schedule": "",
-    "Receipt No.": "",
-    "Cash Amount": "",
-    "Check Amount": "",
-    "Card Amount": "",
-    "Check No. / Approval Code": "",
-    "MRL#": "",
-    "Notes": ""
-  };
+  const theRow = row || emptyRow;
 
   const [rowValue, setRowValue] = useState(theRow.row);
   const [submissionDateValue, setSubmissionDateValue] = useState(theRow.submission_date);
@@ -107,42 +73,39 @@ export default function IntakeRowForm(props) {
 
   const makeRowToSubmit = () => {
     return {
-      "row": rowValue,
-      "Submission date": submissionDateValue,
-      "Entity": entityValue,
-      "DBA": dbaValue,
-      "Facility Address": facilityAddressValue,
-      "Facility Suite #": facilitySuiteNoValue,
-      "Facility Zip": facilityZipValue,
-      "Mailing Address": mailingAddressValue,
-      "MRL": mrlValue,
-      "Neighborhood Association": neighborhoodAssocValue,
-      "Compliance Region": complianceRegionValue,
-      "Primary Contact First Name": firstNameValue,
-      "Primary Contact Last Name": lastNameValue,
-      "Email": emailValue,
-      "Phone": phoneValue,
-      "Endorse Type": endorseTypeValue,
-      "License Type": licenseTypeValue,
-      "Repeat location?": repeatLocationValue,
-      "App complete?": appCompleteValue,
-      "Fee Schedule": feeScheduleValue,
-      "Receipt No.": receiptNoValue,
-      "Cash Amount": cashAmountValue,
-      "Check Amount": checkAmountValue,
-      "Card Amount": cardAmountValue,
-      "Check No. / Approval Code": checkNoValue,
-      "MRL#": mrlNoValue,
-      "Notes": notesValue
+      row: rowValue,
+      submission_date: submissionDateValue,
+      entity: entityValue,
+      dba: dbaValue,
+      facility_address: facilityAddressValue,
+      facility_suite_num: facilitySuiteNoValue,
+      facility_zip: facilityZipValue,
+      mailing_address: mailingAddressValue,
+      mrl: mrlValue,
+      neighborhood_association: neighborhoodAssocValue,
+      compliance_region: complianceRegionValue,
+      primary_contact_first_name: firstNameValue,
+      primary_contact_last_name: lastNameValue,
+      email: emailValue,
+      phone: phoneValue,
+      endorse_type: endorseTypeValue,
+      license_type: licenseTypeValue,
+      repeat_location: repeatLocationValue,
+      app_complete: appCompleteValue,
+      fee_schedule: feeScheduleValue,
+      receipt_num: receiptNoValue,
+      cash_amount: cashAmountValue,
+      check_amount: checkAmountValue,
+      card_amount: cardAmountValue,
+      check_num_approval_code: checkNoValue,
+      mrl_num: mrlNoValue,
+      notes: notesValue,
     };
   };
 
   const onSubmitClick = _ => {
     onSubmit(makeRowToSubmit());
-
-    if (isDialog) {
-      onDialogClose();
-    }
+    onDialogClose();
   };
 
   const formFields = () =>
@@ -176,30 +139,21 @@ export default function IntakeRowForm(props) {
       {makeField('Notes', theRow.notes, e => setNotesValue(e.target.value))}
     </>;
 
-  if (isDialog === true) {
-    return (
-      <Dialog
-        open={dialogOpen}
-        onClose={onDialogClose}
-        onEnter={onDialogEnter}
-        aria-labelledby="intake-row-form-dialog"
-      >
-        <DialogTitle>Edit row {theRow.row}</DialogTitle>
-        <DialogContent>
-          {formFields()}
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={onDialogClose} color="secondary">Cancel</Button>
-          <Button onClick={onSubmitClick} color="primary">Submit</Button>
-        </DialogActions>
-      </Dialog>
-    );
-  } else {
-    return (
-      <form>
+  return (
+    <Dialog
+      open={dialogOpen}
+      onClose={onDialogClose}
+      onEnter={onDialogEnter}
+      aria-labelledby="intake-row-form-dialog"
+    >
+      <DialogTitle>Edit row {theRow.row}</DialogTitle>
+      <DialogContent>
         {formFields()}
-        <Button variant="contained" color="primary" onClick={onSubmitClick}>Submit</Button>
-      </form>
-    );
-  }
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={onDialogClose} color="secondary">Cancel</Button>
+        <Button onClick={onSubmitClick} color="primary">Submit</Button>
+      </DialogActions>
+    </Dialog>
+  );
 }
