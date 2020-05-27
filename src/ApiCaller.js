@@ -1,6 +1,6 @@
 const endpoints = {
   getIntakeTable: 'https://capstone.sugar.coffee/list?table=intake',
-  filterIntakeTable: 'https://capstone.sugar.coffee/query',
+  filterIntakeTable: 'https://capstone.sugar.coffee/list',
   addRow: 'https://capstone.sugar.coffee/load?table=intake',
   addFile: 'https://capstone.sugar.coffee/load',
   deleteRow: 'https://capstone.sugar.coffee/delete?table=intake',
@@ -24,21 +24,25 @@ export async function getIntakeTable() {
 }
 
 export async function filterIntakeTable(queryWhere) {
-  const query = {
-    table: 'intake',
-    where: queryWhere,
-  }
+  try {
+    const query = {
+      table: 'intake',
+      where: JSON.parse(queryWhere),
+    }
 
-  return fetch(endpoints.filterIntakeTable, {
-    method: 'post',
-    headers: {
-      'Content-type': 'application/json'
-    },
-    body: JSON.stringify(query),
-  }).then(response => {
-    if (!response.ok) throw response;
-    return response.json();
-  });
+    return fetch(endpoints.filterIntakeTable, {
+      method: 'post',
+      headers: {
+        'Content-type': 'application/json'
+      },
+      body: JSON.stringify(query),
+    }).then(response => {
+      if (!response.ok) throw response;
+      return response.json();
+    });
+  } catch (error) {
+    return Promise.reject(`${queryWhere} is not a valid JSON object`);
+  }
 }
 
 export async function addRow(row) {

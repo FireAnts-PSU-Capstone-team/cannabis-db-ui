@@ -54,6 +54,7 @@ export default function IntakeTableFilters(props) {
           <TextField
             style={{ marginTop: '1rem' }}
             fullWidth
+            multiline
             value={whereValue}
             label="Where"
             onChange={e => setWhereValue(e.target.value)}
