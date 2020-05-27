@@ -81,7 +81,10 @@ export async function deleteRow(rowNumber) {
 export async function editRow(row) {
   return fetch(endpoints.editRow, {
     method: 'post',
-    body: row,
+    headers: {
+      'Content-type': 'application/json'
+    },
+    body: JSON.stringify(row),
   }).then(response => {
     if (!response.ok) throw response;
     return response.json();
