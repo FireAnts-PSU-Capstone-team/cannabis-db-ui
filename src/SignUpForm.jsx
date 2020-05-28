@@ -6,6 +6,7 @@ export default function LoginForm(props) {
   const { onSubmit } = props;
   const openAlertBar = useContext(AlertBarContext);
 
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -14,26 +15,35 @@ export default function LoginForm(props) {
 
     if (email.length > 0 && password.length > 0) {
       const userCredentials = {
+        name: name,
         email: email,
         password: password,
       };
 
-      onSubmit(userCredentials);
+      onSubmit(userCredentials)
     } else {
-      console.log('must enter both email and password');
-      openAlertBar('error', 'Please enter both email and password');
+      console.log('must enter name, email, and password');
+      openAlertBar('error', 'Please enter all three fields: name, email, and password');
     }
   };
 
   return (
-    <form onSubmit={onFormSubmit} aria-label="login-form" >
+    <form onSubmit={onFormSubmit} aria-label="signup-form" >
       <Typography
         style={{ marginTop: '1.5rem' }}
         variant="h6"
         align="center"
       >
-        Login
+        Sign up
       </Typography>
+      <TextField
+        style={{ display: 'block' }}
+        fullWidth
+        margin="normal"
+        label="Name"
+        variant="outlined"
+        onChange={e => setName(e.target.value)}
+      />
       <TextField
         style={{ display: 'block' }}
         fullWidth
@@ -47,18 +57,17 @@ export default function LoginForm(props) {
         fullWidth
         margin="normal"
         label="Password"
-        type="password"
         variant="outlined"
         onChange={e => setPassword(e.target.value)}
       />
       <Button
-        style={{ display: 'block', float: 'right' }}
+        style={{ float: 'right' }}
         type="submit"
         onClick={onFormSubmit}
         variant="contained"
         color="primary"
       >
-        Login
+        Sign up
       </Button>
     </form >
   );

@@ -7,9 +7,10 @@ import AddNewEntries from './AddNewEntries';
 import SeeTheData from './SeeTheData';
 import VisualizeWithTableau from './VisualizeWithTableau';
 import LoginForm from './LoginForm';
-import { login, logout, getErrorMessage, enableReadOnly } from './ApiCaller';
+import { login, logout, getErrorMessage, enableReadOnly, signup } from './ApiCaller';
 import { AlertBarContext } from './AlertBarContext';
 import { UserContext } from './UserContext';
+import SignupForm from './SignUpForm';
 
 export default function App() {
   const [navValue, setNavValue] = useState(2);
@@ -27,7 +28,21 @@ export default function App() {
         });
 
         console.log('logged in', res);
-        openAlertBar('success', `Logged in as ${res.name}.`);
+        openAlertBar('success', `Logged in as ${res.name}`);
+      })
+      .catch(err => {
+        getErrorMessage(err).then(errorMessage => {
+          console.log('log in fail', errorMessage);
+          openAlertBar('error', `Failed to log in. Error message: ${errorMessage}`);
+        });
+      });
+  };
+
+  const onSignup = credentials => {
+    signup(credentials)
+      .then(res => {
+        console.log('signed up', res);
+        openAlertBar('success', `Signed up successefully`);
       })
       .catch(err => {
         getErrorMessage(err).then(errorMessage => {
@@ -123,9 +138,16 @@ export default function App() {
     );
   } else {
     return (
-      <Container maxWidth="xs">
+      <Container>
         <Title />
-        <LoginForm onSubmit={onLogin} />
+        <Grid container spacing={3} justify="center">
+          <Grid item xs={12} sm={6}>
+            <LoginForm onSubmit={onLogin} />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <SignupForm onSubmit={onSignup} />
+          </Grid>
+        </Grid>
       </Container>
     );
   }

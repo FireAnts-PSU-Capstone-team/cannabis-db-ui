@@ -5,6 +5,7 @@ const endpoints = {
   addFile: 'https://capstone.sugar.coffee/load',
   deleteRow: 'https://capstone.sugar.coffee/delete?table=intake',
   editRow: 'https://capstone.sugar.coffee/update',
+  signup: 'https://capstone.sugar.coffee/signup',
   login: 'https://capstone.sugar.coffee/login',
   logout: 'https://capstone.sugar.coffee/logout',
   enableReadOnly: 'https://capstone.sugar.coffee/enablereadonly',
@@ -89,6 +90,19 @@ export async function editRow(row) {
       'Content-type': 'application/json'
     },
     body: JSON.stringify(row),
+  }).then(response => {
+    if (!response.ok) throw response;
+    return response.json();
+  });
+}
+
+export async function signup(credentials) {
+  return fetch(endpoints.signup, {
+    method: 'post',
+    headers: {
+      'Content-type': 'application/json'
+    },
+    body: JSON.stringify(credentials),
   }).then(response => {
     if (!response.ok) throw response;
     return response.json();
