@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Button, TextField, Typography } from '@material-ui/core';
+import { AlertBarContext } from './AlertBarContext';
 
 export default function LoginForm(props) {
   const { onSubmit } = props;
+  const openAlertBar = useContext(AlertBarContext);
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -16,9 +18,10 @@ export default function LoginForm(props) {
         password: password,
       };
 
-      onSubmit(userCredentials)
+      onSubmit(userCredentials);
     } else {
       console.log('must enter both email and password');
+      openAlertBar('error', 'Please enter both email and password');
     }
   };
 
