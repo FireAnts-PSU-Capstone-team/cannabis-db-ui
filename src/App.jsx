@@ -22,13 +22,13 @@ export default function App() {
       .then(res => {
         userDispatch({
           type: 'login',
-          name: res.name,
-          isAdmin: res.is_admin,
-          isReadOnly: res.read_only,
+          name: res.user.name,
+          isAdmin: res.user.is_admin,
+          isReadOnly: res.user.read_only,
         });
 
         console.log('logged in', res);
-        openAlertBar('success', `Logged in as ${res.name}`);
+        openAlertBar('success', `Logged in as ${res.user.name}`);
       })
       .catch(err => {
         getErrorMessage(err).then(errorMessage => {
@@ -42,7 +42,7 @@ export default function App() {
     signup(credentials)
       .then(res => {
         console.log('signed up', res);
-        openAlertBar('success', `Signed up successefully`);
+        openAlertBar('success', `Signed up successfully`);
       })
       .catch(err => {
         getErrorMessage(err).then(errorMessage => {
