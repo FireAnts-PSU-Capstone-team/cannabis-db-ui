@@ -145,8 +145,7 @@ export default function IntakeTable() {
             console.log('delete rows fail', errorMessage);
             openAlertBar('error', `Failed to delete rows. Error message: ${errorMessage}`);
           });
-        })
-        .finally(() => setSelected([]));
+        });
     } else {
       console.log('no rows to delete');
       openAlertBar('error', 'No rows to delete');
@@ -166,8 +165,7 @@ export default function IntakeTable() {
             console.log('edit row fail', errorMessage);
             openAlertBar('error', `Failed to edit row. Error message: ${errorMessage}`);
           });
-        })
-        .finally(() => setSelected([]));
+        });
     } else {
       console.log('cannot edit more than 1 row');
       openAlertBar('error', 'Cannot edit more than one row');
@@ -177,6 +175,7 @@ export default function IntakeTable() {
   const onFilterSubmit = query => {
     filterIntakeTable(query.where)
       .then(rows => {
+        setSelected([]);
         setRows(rows);
         setShownColumns(query.columns);
 

@@ -7,9 +7,10 @@ import AddNewEntries from './AddNewEntries';
 import SeeTheData from './SeeTheData';
 import VisualizeWithTableau from './VisualizeWithTableau';
 import LoginForm from './LoginForm';
-import { login, logout, getErrorMessage, enableReadOnly } from './ApiCaller';
+import { login, logout, getErrorMessage, enableReadOnly, signup } from './ApiCaller';
 import { AlertBarContext } from './AlertBarContext';
 import { UserContext } from './UserContext';
+import SignupForm from './SignUpForm';
 
 export default function App() {
   const [navValue, setNavValue] = useState(2);
@@ -21,18 +22,32 @@ export default function App() {
       .then(res => {
         userDispatch({
           type: 'login',
-          name: res.name,
-          isAdmin: res.is_admin,
-          isReadOnly: res.read_only,
+          name: res.user.name,
+          isAdmin: res.user.is_admin,
+          isReadOnly: res.user.read_only_mode,
         });
 
         console.log('logged in', res);
-        openAlertBar('success', `Logged in as ${res.name}.`);
+        openAlertBar('success', `Logged in as ${res.user.name}`);
       })
       .catch(err => {
         getErrorMessage(err).then(errorMessage => {
           console.log('log in fail', errorMessage);
-          openAlertBar(`Failed to log in. Error message: ${errorMessage}`);
+          openAlertBar('error', `Failed to log in. Error message: ${errorMessage}`);
+        });
+      });
+  };
+
+  const onSignup = credentials => {
+    signup(credentials)
+      .then(res => {
+        console.log('signed up', res);
+        openAlertBar('success', `Signed up successfully`);
+      })
+      .catch(err => {
+        getErrorMessage(err).then(errorMessage => {
+          console.log('log in fail', errorMessage);
+          openAlertBar('error', `Failed to log in. Error message: ${errorMessage}`);
         });
       });
   };
@@ -48,7 +63,7 @@ export default function App() {
       .catch(err => {
         getErrorMessage(err).then(errorMessage => {
           console.log('log out fail', errorMessage);
-          openAlertBar('warning', `Failed to log out. Error message: ${errorMessage}`);
+          openAlertBar('error', `Failed to log out. Error message: ${errorMessage}`);
         });
       });
   }
@@ -63,7 +78,7 @@ export default function App() {
       .catch(err => {
         getErrorMessage(err).then(errorMessage => {
           console.log('enable read-only mode fail', errorMessage);
-          openAlertBar('warning', `Failed to enable read-only mode. Error message: ${errorMessage}`);
+          openAlertBar('error', `Failed to enable read-only mode. Error message: ${errorMessage}`);
         });
       });
   }
@@ -78,7 +93,7 @@ export default function App() {
       .catch(err => {
         getErrorMessage(err).then(errorMessage => {
           console.log('disable read-only mode fail', errorMessage);
-          openAlertBar('warning', `Failed to disable read-only mode. Error message: ${errorMessage}`);
+          openAlertBar('error', `Failed to disable read-only mode. Error message: ${errorMessage}`);
         });
       });
   }
@@ -123,9 +138,16 @@ export default function App() {
     );
   } else {
     return (
-      <Container maxWidth="xs">
+      <Container>
         <Title />
-        <LoginForm onSubmit={onLogin} />
+        <Grid container spacing={3} justify="center">
+          <Grid item xs={12} sm={6}>
+            <LoginForm onSubmit={onLogin} />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <SignupForm onSubmit={onSignup} />
+          </Grid>
+        </Grid>
       </Container>
     );
   }
