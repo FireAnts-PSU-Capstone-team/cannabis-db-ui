@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "89c372e9791dacbca0ade5b4d4cffc09",
+    "revision": "c9e307fc3b014437303d98627ea298d8",
     "url": "/cannabis-db-ui/index.html"
   },
   {
-    "revision": "1c6806f28261947a2c9e",
+    "revision": "b5e4db8b5b71502b3979",
     "url": "/cannabis-db-ui/static/css/main.ed88b23c.chunk.css"
   },
   {
@@ -16,8 +16,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/cannabis-db-ui/static/js/2.71d6ed83.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "1c6806f28261947a2c9e",
-    "url": "/cannabis-db-ui/static/js/main.9f9d843e.chunk.js"
+    "revision": "b5e4db8b5b71502b3979",
+    "url": "/cannabis-db-ui/static/js/main.7b67ea8e.chunk.js"
   },
   {
     "revision": "eb06e53a1e2a95aac7e3",
