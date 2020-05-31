@@ -18,7 +18,7 @@ export async function getErrorMessage(err) {
 }
 
 export async function getIntakeTable() {
-  return fetch(endpoints.getIntakeTable).then(response => {
+  return fetch(endpoints.getIntakeTable, { credentials: 'include' }).then(response => {
     if (!response.ok) throw response;
     return response.json();
   });
@@ -32,6 +32,7 @@ export async function filterIntakeTable(queryWhere) {
     }
 
     return fetch(endpoints.filterIntakeTable, {
+      credentials: 'include',
       method: 'post',
       headers: {
         'Content-type': 'application/json'
@@ -48,6 +49,7 @@ export async function filterIntakeTable(queryWhere) {
 
 export async function addRow(row) {
   return fetch(endpoints.addRow, {
+    credentials: 'include',
     method: 'put',
     headers: {
       'Content-type': 'application/json'
@@ -64,6 +66,7 @@ export async function addFile(file) {
   data.append('file', file, file.name);
 
   return fetch(endpoints.addFile, {
+    credentials: 'include',
     method: 'post',
     body: data,
   }).then(response => {
@@ -77,7 +80,7 @@ export async function deleteRow(rowNumber) {
 
   const url = `${endpoints.deleteRow}&row=${rowNumber}`;
 
-  return fetch(url).then(response => {
+  return fetch(url, { credentials: 'include' }).then(response => {
     if (!response.ok) throw response;
     return response.json();
   });
@@ -85,6 +88,7 @@ export async function deleteRow(rowNumber) {
 
 export async function editRow(row) {
   return fetch(endpoints.editRow, {
+    credentials: 'include',
     method: 'post',
     headers: {
       'Content-type': 'application/json'
@@ -98,6 +102,7 @@ export async function editRow(row) {
 
 export async function signup(credentials) {
   return fetch(endpoints.signup, {
+    credentials: 'include',
     method: 'post',
     headers: {
       'Content-type': 'application/json'
@@ -111,6 +116,7 @@ export async function signup(credentials) {
 
 export async function login(credentials) {
   return fetch(endpoints.login, {
+    credentials: 'include',
     method: 'post',
     headers: {
       'Content-type': 'application/json'
@@ -123,21 +129,21 @@ export async function login(credentials) {
 }
 
 export async function logout() {
-  return fetch(endpoints.logout).then(response => {
+  return fetch(endpoints.logout, { credentials: 'include' }).then(response => {
     if (!response.ok) throw response;
     return response.json();
   });
 }
 
 export async function enableReadOnly() {
-  return fetch(endpoints.enableReadOnly).then(response => {
+  return fetch(endpoints.enableReadOnly, { credentials: 'include' }).then(response => {
     if (!response.ok) throw response;
     return response.json();
   });
 }
 
 export async function disableReadOnly() {
-  return fetch(endpoints.disableReadOnly).then(response => {
+  return fetch(endpoints.disableReadOnly, { credentials: 'include' }).then(response => {
     if (!response.ok) throw response;
     return response.json();
   });
