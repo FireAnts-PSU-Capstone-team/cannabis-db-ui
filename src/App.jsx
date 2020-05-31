@@ -24,7 +24,7 @@ export default function App() {
           type: 'login',
           name: res.user.name,
           isAdmin: res.user.is_admin,
-          isReadOnly: res.user.read_only,
+          isReadOnly: res.user.read_only_mode,
         });
 
         console.log('logged in', res);
