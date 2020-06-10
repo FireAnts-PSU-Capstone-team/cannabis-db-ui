@@ -2,7 +2,7 @@ const endpoints = {
   getIntakeTable: 'https://capstone.sugar.coffee/list?table=intake',
   filterIntakeTable: 'https://capstone.sugar.coffee/list',
   addRow: 'https://capstone.sugar.coffee/load?table=intake',
-  addFile: 'https://capstone.sugar.coffee/load',
+  addFile: 'https://capstone.sugar.coffee/load?table=intake',
   deleteRow: 'https://capstone.sugar.coffee/delete?table=intake',
   editRow: 'https://capstone.sugar.coffee/update',
   signup: 'https://capstone.sugar.coffee/signup',
